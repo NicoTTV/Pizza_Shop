@@ -1,32 +1,40 @@
-@startuml
+### AL ###
+#Template for AL projects for Dynamics 365 Business Central
+#launch.json folder
+.vscode/
+#Cache folder
+.alcache/
+#Symbols folder
+.alpackages/
+#Snapshots folder
+.snapshots/
+#Testing Output folder
+.output/
+#Extension App-file
+*.app
+#Rapid Application Development File
+rad.json
+#Translation Base-file
+*.g.xlf
+#License-file
+*.flf
+#Test results file
+TestResults.xml
 
-[ServiceCatalogue] as servCata
-[ServiceCommande] as servComm
-[ServiceNotif] as servNot
-[ServiceClient] as servCli
-
-
-interface "Naviguer" as nav
-interface "produitDescription" as descrProd
-interface "Client" as cli
-interface "enregistrement" as enre
-interface "avancement" as avanc
-interface "paiement" as moula
-interface "recapCommande" as recap
-
-servCli -up- cli
-servCli - enre
-servCli -down- moula
-
-servCata -down- nav
-servCata - descrProd
-
-servComm -down-( descrProd
-servComm -up-( cli
-servComm -( moula
-servComm -right- recap
-
-servNot -left-( cli
-servNot - avanc
-
-@enduml
+#projet phpStorm
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.iml
+# Log file
+*.log
+.idea/*
+*.idea/
+*.ini
+vendor
+.env
+cache
