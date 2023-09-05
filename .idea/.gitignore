@@ -1,0 +1,32 @@
+@startuml
+
+[ServiceCatalogue] as servCata
+[ServiceCommande] as servComm
+[ServiceNotif] as servNot
+[ServiceClient] as servCli
+
+
+interface "Naviguer" as nav
+interface "produitDescription" as descrProd
+interface "Client" as cli
+interface "enregistrement" as enre
+interface "avancement" as avanc
+interface "paiement" as moula
+interface "recapCommande" as recap
+
+servCli -up- cli
+servCli - enre
+servCli -down- moula
+
+servCata -down- nav
+servCata - descrProd
+
+servComm -down-( descrProd
+servComm -up-( cli
+servComm -( moula
+servComm -right- recap
+
+servNot -left-( cli
+servNot - avanc
+
+@enduml
