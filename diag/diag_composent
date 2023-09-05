@@ -9,6 +9,8 @@
 
 [Service Paiement] as servPaie
 
+[Service Loggin] as servLog
+
 interface "profil" as cli
 interface "enregistrement" as enre
 interface "checkAuth" as check
@@ -18,24 +20,24 @@ interface "Naviguer" as nav
 interface "produitDescription" as descrProd
 interface "commander" as comm
 
-
 interface "paiement" as moula
 interface "montant" as montant
 
 
 servCli -left- cli
-servCli - enre
-servCli -down- CliInfo
+servCli -up- enre
+
+servLog -down- CliInfo
 
 servCont -down- check
 servCont -right-( cli
 
-servCata -left- nav
+servCata -up- nav
 servCata -down- descrProd
 
 servComm -left-( descrProd
 servComm -up- comm
-servComm -( CliInfo
+servComm -down-( CliInfo
 servComm - montant
 
 servPaie -up- moula
