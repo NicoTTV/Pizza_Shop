@@ -1,6 +1,6 @@
 <?php
 
-use gift\app\services\utils\DB;
+use pizzashop\shop\domain\services\utils\DB;
 use Slim\Factory\AppFactory;
 
 $app = AppFactory::create();
