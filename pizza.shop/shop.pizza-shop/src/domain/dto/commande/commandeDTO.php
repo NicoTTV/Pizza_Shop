@@ -33,6 +33,4 @@ class commandeDTO extends \pizzashop\shop\domain\dto\DTO{
             $this->$name = $value;
         else throw new PropertyDoesNotExist("Property $name does not exist");
     }
-
-
 }
