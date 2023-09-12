@@ -17,6 +17,7 @@ class commandeDTO extends \pizzashop\shop\domain\dto\DTO{
 
     public function __construct(String $id, String $date_commande, Int $type_livraison, float $montant, Int $delai, String $email_client, array $items)
     {
+
         $this->id = $id;
         $this->date_commande = $date_commande;
         $this->type_livraison = $type_livraison;
@@ -44,4 +45,6 @@ class commandeDTO extends \pizzashop\shop\domain\dto\DTO{
             $this->$name = $value;
         else throw new PropertyDoesNotExist("Property $name does not exist");
     }
+
+
 }

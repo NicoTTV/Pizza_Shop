@@ -28,29 +28,15 @@ class ServiceCommande {
             return throw new serviceCommandeNotFoundException();
         }
 
-        // Créer un objet CommandeDTO
-        $commandeDTO = new CommandeDTO();
-        $commandeDTO->id = $commande->id;
-        $commandeDTO->date_commande = $commande->date_commande;
-        $commandeDTO->type_livraison = $commande->type_livraison;
-        $commandeDTO->montant_total = $commande->montant_total;
-        $commandeDTO->delai = $commande->delai;
-
-        // Créer une liste d'ItemDTO
         $itemDTOs = [];
         foreach ($commande->items as $item) {
-            $itemDTO = new ItemDTO();
-            $itemDTO->numero = $item->numero;
-            $itemDTO->libelle = $item->libelle;
-            $itemDTO->taille = $item->taille;
-            $itemDTO->tarif = $item->tarif;
-            $itemDTO->quantite = $item->quantite;
+            $itemDTO = new ItemDTO($item->numero, $item->libelle, $item->taille, $item->tarif, $item->quantite);
+
             $itemDTOs[] = $itemDTO;
         }
 
+        return new CommandeDTO($commande->id, $commande->date_commande,$commande->type_livraison, $commande->montant_total, $commande->delai, $commande->id_client, $itemDTOs);
 
-        $commandeDTO->items = $itemDTOs;
-        return $commandeDTO;
     }
 
     private ServiceCatalogue $serviceCatalogue;
