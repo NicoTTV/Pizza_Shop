@@ -11,6 +11,16 @@ class itemDTO extends \pizzashop\shop\domain\dto\DTO{
     public $tarif;
     public $quantite;
 
+    public function __construct($numero, $libelle, $taille, $tarif, $quantite)
+    {
+        $this->numero = $numero;
+        $this->libelle = $libelle;
+        $this->taille = $taille;
+        $this->tarif = $tarif;
+        $this->quantite = $quantite;
+    }
+
+
     public function __get($att){
         return $this->$att;
     }
