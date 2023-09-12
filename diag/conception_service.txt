@@ -1,0 +1,56 @@
+@startuml
+
+package Entites.commande {
+  Class Commande{
+    String id
+    Date date_commande
+    Int type_Livraison
+    Decimal montant_total
+    Int etat
+    String emial_client
+  }
+
+  CLass Item {
+    Int id
+    Int numero
+    String libelle
+    Int taille
+    Decimal tarif
+    Int quantite
+  }
+}
+
+Commande "1" -- "*" Item
+
+package DTO.commande {
+  Class commandeDTO{
+    + String id
+    + String date_commande
+    + Int type_date
+    + Decimal montant
+    + Int delai
+    + String emial_client
+  }
+
+  Class ItemDTO{
+    + Int numero
+    + String libelle
+    + Int taille
+    + Decimal tarif
+    + Int quantite
+  }
+}
+
+package Service.commande{
+  Interface ICommander{
+    creerCommande(CommandeDTO commande) : void
+    validerCommande(String id) : void
+    getCommande(string id) : commandeDTO
+  }
+
+  Class ServiceCommande implements ICommander{}
+}
+
+commandeDTO "1"*- ItemDTO
+
+@enduml
