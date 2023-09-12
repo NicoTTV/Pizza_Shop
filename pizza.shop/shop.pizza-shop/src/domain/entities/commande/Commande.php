@@ -2,11 +2,13 @@
 
 namespace pizzashop\shop\domain\entities\commande;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Commande extends Model
+class Commande extends \Illuminate\Database\Eloquent\Model
 {
     protected $table = 'commande';
     protected $primaryKey = 'id';
     public $timestamps = false;
+
+    function items(){
+        return $this->hasMany(Item::class, 'commande_id');
+    }
 }
