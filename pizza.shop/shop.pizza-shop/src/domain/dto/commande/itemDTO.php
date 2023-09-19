@@ -4,6 +4,7 @@ namespace pizzashop\shop\domain\dto\commande;
 
 use PhpParser\Node\Expr\Cast\Double;
 
+
 class ItemDTO extends \pizzashop\shop\domain\dto\DTO{
     public $numero;
     public $libelle;
@@ -12,7 +13,11 @@ class ItemDTO extends \pizzashop\shop\domain\dto\DTO{
     public $quantite;
     private $libelle_taille;
 
-
+    /**
+     * @param $numero
+     * @param $taille
+     * @param $quantite
+     */
     public function __construct($numero, $taille, $quantite)
     {
         $this->numero = $numero;
@@ -48,7 +53,5 @@ class ItemDTO extends \pizzashop\shop\domain\dto\DTO{
     {
         $this->libelle_taille = $libelle_taille;
     }
-
-
 
 }
