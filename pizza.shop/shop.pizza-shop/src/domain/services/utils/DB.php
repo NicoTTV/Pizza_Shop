@@ -9,8 +9,8 @@ class DB extends Manager
     public static function initConnection(): void
     {
         $db = new Manager();
-        $db->addConnection(parse_ini_file(__DIR__.'/../../../../config/commande.db.ini'));
-        $db->addConnection(parse_ini_file(__DIR__.'/../../../../config/catalog.db.ini'));
+        $db->addConnection(parse_ini_file(__DIR__ . '/../../../../config/catalog.db.ini'));
+        $db->addConnection(parse_ini_file(__DIR__ . '/../../../../config/commande.db.ini'));
         $db->setAsGlobal();
         $db->bootEloquent();
     }
