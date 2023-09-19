@@ -39,12 +39,12 @@ class Commande extends \Illuminate\Database\Eloquent\Model
     function toDTO() : commandeDTO {
         $commandeDTO = new CommandeDTO($this->mail_client, $this->type_livraison);
         $commandeDTO->id = $this->id;
-        $commandeDTO->date_commande = ($this->datencemande) /*->format(Y-m-d H: i:s')*/;
+        $commandeDTO->date_commande = ($this->date_commande) /*->format(Y-m-d H: i:s')*/;
         $commandeDTO->etat = $this->etat;
-        $commandeDTO->montant = $this->neatantutetal;
+        $commandeDTO->montant = $this->motant_total;
         $commandeDTO->delai = $this->delai ?? 0;
-        foreach ($this->iteas as $item) {
-            $commandeDTO->addItem($item - ›toDTO());
+        foreach ($this->items as $item) {
+            $commandeDTO->addItem($item->toDTO());
         }
         return $commandeDTO;
     }
