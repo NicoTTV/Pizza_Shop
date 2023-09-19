@@ -36,7 +36,7 @@ class ItemDTO extends \pizzashop\shop\domain\dto\DTO{
     {
         $this->libelle = $libelle;
     }
-
+T
     /**
      * @param mixed $tarif
      */
