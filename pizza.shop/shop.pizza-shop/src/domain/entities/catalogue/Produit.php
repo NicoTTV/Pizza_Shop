@@ -6,8 +6,6 @@ use pizzashop\shop\domain\dto\catalogue\ProduitDTO;
 
 class Produit extends \Illuminate\database\eloquent\Model
 {
-
-    protected $connection = 'catalog';
     protected $table = 'produit';
     protected $primaryKey = 'id';
     public $timestamps = false;
@@ -23,8 +21,4 @@ class Produit extends \Illuminate\database\eloquent\Model
         return $this->belongsToMany(Taille::class, 'tarif', 'produit_id', 'taille_id')
             ->withPivot('tarif');
     }
-
-
-
-
 }
