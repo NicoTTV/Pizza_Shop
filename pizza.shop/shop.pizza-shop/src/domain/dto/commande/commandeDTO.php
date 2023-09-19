@@ -7,13 +7,14 @@ use pizzashop\shop\domain\services\exceptions\PropertyDoesNotExist;
 
 class commandeDTO extends \pizzashop\shop\domain\dto\DTO{
 
-    private String $id;
-    private String $date_commande;
-    private Int $type_livraison;
-    private float $montant;
-    private Int $delai;
-    private String $email_client;
+    private $id;
+    private $date_commande;
+    private $type_livraison;
+    private $montant;
+    private $delai;
+    private $email_client;
     private array $items;
+    private $etat;
 
     public function __construct(String $email_client, Int $type_livraison) {
 
@@ -34,5 +35,8 @@ class commandeDTO extends \pizzashop\shop\domain\dto\DTO{
         else throw new PropertyDoesNotExist("Property $name does not exist");
     }
 
+    function addItem($item){
+        $this->items[] = $item;
+    }
 
 }
