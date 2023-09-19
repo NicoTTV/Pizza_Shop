@@ -5,7 +5,7 @@ namespace pizzashop\shop\domain\entities\catalogue;
 class Taille extends \Illuminate\Database\Eloquent\Model
 {
 
-    protected $connection = 'catalog';
+
     protected $table = 'taille';
     protected $primaryKey = 'id';
     public $timestamps = false;
