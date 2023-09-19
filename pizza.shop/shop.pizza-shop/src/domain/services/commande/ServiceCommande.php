@@ -18,25 +18,26 @@ class ServiceCommande {
     /**
      * @throws ServiceCommandeNotFoundException
      */
-    public function accederCommande($UUID)
-    {
+    public function accederCommande($UUID) {
         try {
-            $commande = Commande::with('items')->findOrFail($UUID);
-
-            echo $commande;
+            $commande = Commande::findOrFail($UUID);
         } catch (ModelNotFoundException $e) {
-            return throw new serviceCommandeNotFoundException();
+            return throw new serviceCommandeNotFoundException(`commande {$UUID} not found`);
         }
+        return new CommandeDTO($commande->id, $commande->date_commande,);
+    }
 
-        $itemDTOs = [];
-        foreach ($commande->items as $item) {
-            $itemDTO = new ItemDTO($item->numero, $item->libelle, $item->taille, $item->tarif, $item->quantite);
-
-            $itemDTOs[] = $itemDTO;
+    function validerCommande(String $UUID){
+        try{
+            $commande = Commande::findOrFail($UUID);
+        } catch (ModelNotFoundException $e) {
+            throw new serviceCommandeNotFoundException(`commande {$UUID} not found`);
         }
-
-        return new CommandeDTO($commande->id, $commande->date_commande,$commande->type_livraison, $commande->montant_total, $commande->delai, $commande->id_client, $itemDTOs);
-
+        if ($commande->etat > Commande::ETAT_VALIDE){
+            throw new ServiceCommandeInvalidException(`commande {$UUID} invalid`);
+        }
+        $commande->update(['etat' => Commande::ETAT_VALIDE]);
+        return $commande->toDTO();
     }
 
     private ServiceCatalogue $serviceCatalogue;
