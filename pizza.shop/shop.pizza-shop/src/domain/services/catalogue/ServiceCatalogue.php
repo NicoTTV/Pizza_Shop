@@ -1,6 +1,6 @@
 <?php
 
-namespace pizzashop\src\domain\services\catalogue;
+namespace pizzashop\shop\domain\services\catalogue;
 
 use pizzashop\shop\domain\dto\catalogue\ProduitDTO;
 use pizzashop\shop\domain\entities\catalogue\Produit;
