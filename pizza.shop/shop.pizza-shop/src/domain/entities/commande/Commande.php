@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Commande extends Model
 {
-    const CREER = 1;
+    const ETAT_CREER = 1;
 
     protected $table = 'commande';
     protected $primaryKey = 'id';

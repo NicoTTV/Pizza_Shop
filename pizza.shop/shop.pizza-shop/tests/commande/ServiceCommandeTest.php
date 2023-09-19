@@ -27,8 +27,8 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
         $db->setAsGlobal();
         $db->bootEloquent();
 
-        self::$serviceProduits = new \pizzashop\shop\domain\service\catalogue\ServiceCatalogue();
-        self::$serviceCommande = new \pizzashop\shop\domain\service\commande\ServiceCommande(self::$serviceProduits);
+        self::$serviceProduits = new \pizzashop\shop\domain\services\catalogue\ServiceCatalogue();
+        self::$serviceCommande = new \pizzashop\shop\domain\services\commande\ServiceCommande(self::$serviceProduits);
         self::$faker = Factory::create('fr_FR');
         self::fillDB();
         print_r(self::$commandeIds);
