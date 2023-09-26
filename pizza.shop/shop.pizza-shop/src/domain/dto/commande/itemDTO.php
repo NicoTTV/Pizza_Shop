@@ -2,7 +2,7 @@
 
 namespace pizzashop\shop\domain\dto\commande;
 
-class itemDTO extends \pizzashop\shop\domain\dto\DTO{
+class ItemDTO extends \pizzashop\shop\domain\dto\DTO{
     public $numero;
     public $libelle;
     public $taille;
