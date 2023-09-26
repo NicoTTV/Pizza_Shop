@@ -5,6 +5,9 @@ use Slim\Factory\AppFactory;
 
 $app = AppFactory::create();
 $app->addRoutingMiddleware();
-$app->addErrorMiddleware(true,false,false);
+$errorMiddleware = $app->addErrorMiddleware(true,false,false);
+$errorHandler = $errorMiddleware->getDefaultErrorHandler();
 DB::initConnection();
+
+$errorHandler->forceContentType('application/json');
 return $app;

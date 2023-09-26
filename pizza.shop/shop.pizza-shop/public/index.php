@@ -11,13 +11,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 /* application boostrap */
 $appli = require_once __DIR__ . '/../config/bootstrap.php';
 
-$servc = new \pizzashop\shop\domain\services\catalogue\ServiceCatalogue();
-$serv = new \pizzashop\shop\domain\services\commande\ServiceCommande($servc);
-var_dump($serv->accederCommande('112e7ee1-3e8d-37d6-89cf-be3318ad6368'));
-var_dump($serv->validerCommande('112e7ee1-3e8d-37d6-89cf-be3318ad6368'));
-$commande = new CommandeDTO("coucou@gmail.com", Commande::LIVRAISON_DOMICILE);
-$commande->addItem(new ItemDTO(5,1,2));
-$commande->addItem(new ItemDTO(6,2,1));
-$commande->addItem(new ItemDTO(9,1,7));
-var_dump($serv->creerCommande($commande));
+/* routes */
+(require_once __DIR__ . '/../config/routes.php')($appli);
+
 $appli->run();
