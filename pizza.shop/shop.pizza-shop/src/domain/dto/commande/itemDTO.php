@@ -2,8 +2,6 @@
 
 namespace pizzashop\shop\domain\dto\commande;
 
-use PhpParser\Node\Expr\Cast\Double;
-
 class itemDTO extends \pizzashop\shop\domain\dto\DTO{
     public $numero;
     public $libelle;
@@ -46,6 +44,7 @@ class itemDTO extends \pizzashop\shop\domain\dto\DTO{
     public function setLibelleTaille($libelleTaille): void
     {
         $this->libelleTaille = $libelleTaille;
+        $test = "";
     }
 
 
