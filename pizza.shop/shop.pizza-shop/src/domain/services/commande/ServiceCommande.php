@@ -39,7 +39,7 @@ class ServiceCommande {
      * @throws ServiceCommandeEnregistrementException
      */
     function validerCommande(String $UUID){
-        try{
+        try {
             $commande = Commande::where('id', $UUID)->firstOrFail();
         } catch (ModelNotFoundException $e) {
             throw new ServiceCommandeNotFoundException("commande not found");
@@ -60,7 +60,11 @@ class ServiceCommande {
      * @param commandeDTO $commandeDTO
      * @return commandeDTO
      * @throws CreerCommandeException
-     * @throws ProduitIntrouvableException
+     * @throws ProduitIntroCommande->id = Uuid::uuid4()->toString();
+            $newCommande->date_commande = \date("Y-m-d h:i:s");
+            $newCommande->etat = Commande::ETAT_CREE;
+            $newCommande->montant_total = $montant_total;
+            $newCommande->mail_client = $commandeDTO->email_client;uvableException
      */
     public function creerCommande(CommandeDTO $commandeDTO) {
         $montant_total = 0;
