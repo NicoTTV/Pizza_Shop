@@ -8,5 +8,5 @@ use Slim\Psr7\Response;
 
 abstract class AbstractAction
 {
-    public abstract function __invoke(Response $response, Request $request, $args): ResponseInterface;
+    public abstract function __invoke (Request $request,Response $response, $args): ResponseInterface;
 }

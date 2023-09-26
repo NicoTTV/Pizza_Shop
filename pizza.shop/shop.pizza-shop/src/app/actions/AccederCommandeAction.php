@@ -9,10 +9,12 @@ use pizzashop\shop\domain\services\commande\serviceCommandeNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
+use Slim\Psr7\Request;
+use Slim\Psr7\Response;
 
-class AccederCommandeAction {
+class AccederCommandeAction extends AbstractAction {
 
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function __invoke(Request $request,Response $response, $args): ResponseInterface {
         $cat = new ServiceCatalogue();
         $comm = new ServiceCommande($cat);
         $UUID = $request->getAttribute('id_commande');
