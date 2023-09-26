@@ -14,17 +14,28 @@ use Slim\Psr7\Response;
 
 class AccederCommandeAction extends AbstractAction {
 
-    public function __invoke(Request $request,Response $response, $args): ResponseInterface {
-        $cat = new ServiceCatalogue();
-        $comm = new ServiceCommande($cat);
+    private ServiceCommande $comm;
+
+    /**
+     * @param ServiceCommande $comm
+     */
+    public function __construct(ServiceCommande $comm)
+    {
+        $this->comm = $comm;
+    }
+
+
+    public function __invoke(Request $request, Response $response, $args): ResponseInterface {
+
         $UUID = $request->getAttribute('id_commande');
         try {
-            $commande = $comm->accederCommande($UUID);
-        } catch (ServiceCommandeNotFoundException $e) {
+            $commande = $this->comm->accederCommande($UUID);
+        } catch (serviceCommandeNotFoundException $e) {
             throw new HttpNotFoundException($request, $e->getMessage());
         }
 
         $data = $this->formaterCommande($commande);
+
 
         $response->getBody()->write(json_encode($data));
         return
