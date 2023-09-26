@@ -5,7 +5,7 @@ namespace pizzashop\shop\app\actions;
 use pizzashop\shop\domain\entities\commande\Commande;
 use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
 use pizzashop\shop\domain\services\commande\ServiceCommande;
-use pizzashop\shop\domain\services\commande\serviceCommandeNotFoundException;
+use pizzashop\shop\domain\services\exceptions\ServiceCommandeNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpNotFoundException;
@@ -20,37 +20,11 @@ class AccederCommandeAction extends AbstractAction {
         $UUID = $request->getAttribute('id_commande');
         try {
             $commande = $comm->accederCommande($UUID);
-        } catch (serviceCommandeNotFoundException $e) {
+        } catch (ServiceCommandeNotFoundException $e) {
             throw new HttpNotFoundException($request, $e->getMessage());
         }
 
-        $data = [
-            'type' => 'ressource',
-            'commande' => [],
-        ];
-
-        $data['commande'][] = [
-            'id' => $commande->id,
-            'date_commande' => $commande->date_commande,
-            'type_livraison' => $commande->type_livraison,
-            'etat' => $commande->etat,
-            'mail_client' => $commande->email_client,
-            'montant' => $commande->montant,
-            'delai' => $commande->delai,
-            'items' => []
-        ];
-
-        foreach ($commande->items as $it){
-            $data['commande']['items'][] = [
-                'numero' => $it->numero,
-                'taille' => $it->taille,
-                'quantite' => $it->quantite,
-                'libelle' => $it->libelle,
-                'libelle_taille' => $it->libelleTaille,
-                'tarif' => $it->tarif,
-            ];
-        }
-
+        $data = $this->formaterCommande($commande);
 
         $response->getBody()->write(json_encode($data));
         return
