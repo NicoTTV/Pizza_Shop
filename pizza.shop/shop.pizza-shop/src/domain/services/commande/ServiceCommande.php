@@ -25,7 +25,7 @@ class ServiceCommande {
         try {
             $commande = Commande::findOrFail($UUID);
         } catch (ModelNotFoundException $e) {
-            throw new serviceCommandeNotFoundException(`commande {$UUID} not found`);
+            throw new serviceCommandeNotFoundException("commande {$UUID} not found");
         }
         return $commande->toDTO();
     }
@@ -34,10 +34,10 @@ class ServiceCommande {
         try{
             $commande = Commande::where('id', $UUID)->firstOrFail();
         } catch (ModelNotFoundException $e) {
-            throw new serviceCommandeNotFoundException(`commande {$UUID} not found`);
+            throw new serviceCommandeNotFoundException("commande {$UUID} not found");
         }
         if ($commande->etat > Commande::ETAT_VALIDE){
-            throw new ServiceCommandeInvalidException(`commande {$UUID} invalid`);
+            throw new ServiceCommandeInvalidException("commande {$UUID} invalid");
         }
         $commande->etat = Commande::ETAT_VALIDE;
         $commande->save();

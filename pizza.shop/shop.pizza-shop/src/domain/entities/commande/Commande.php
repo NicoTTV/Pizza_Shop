@@ -18,6 +18,7 @@ class Commande extends \Illuminate\Database\Eloquent\Model
     protected $table = 'commande';
     protected $primaryKey = 'id';
     public $timestamps = false;
+    protected $connection = 'commande';
 
     public  $incrementing = false;
     public $keyType='string';
