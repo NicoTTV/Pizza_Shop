@@ -4,7 +4,7 @@ namespace pizzashop\shop\domain\dto\commande;
 
 use PhpParser\Node\Expr\Cast\Double;
 
-class itemDTO extends \pizzashop\shop\domain\dto\DTO{
+class ItemDTO extends \pizzashop\shop\domain\dto\DTO{
     public $numero;
     public $libelle;
     public $taille;
