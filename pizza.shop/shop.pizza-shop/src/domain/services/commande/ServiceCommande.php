@@ -1,15 +1,23 @@
 <?php
 namespace pizzashop\shop\domain\services\commande;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use PHPUnit\Logging\Exception;
 use pizzashop\shop\domain\dto\commande\commandeDTO;
 use pizzashop\shop\domain\entities\commande\Commande;
 use pizzashop\shop\domain\services\exceptions\CreerCommandeException;
 use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
-use pizzashop\src\domain\services\catalogue\ProduitIntrouvableException;
+use pizzashop\shop\domain\services\exceptions\ProduitIntrouvableException;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Rules\Date;
 
 class ServiceCommande {
+
+    private ServiceCatalogue $serviceCatalogue;
+
+    public function __construct(ServiceCatalogue $serviceCatalogue) {
+        $this->serviceCatalogue = $serviceCatalogue;
+    }
+
     /**
      * @throws ServiceCommandeNotFoundException
      */
@@ -36,13 +44,6 @@ class ServiceCommande {
         return $commande->toDTO();
     }
 
-    private ServiceCatalogue $serviceCatalogue;
-
-    public function __construct(ServiceCatalogue $serviceCatalogue) {
-        $this->serviceCatalogue = $serviceCatalogue;
-    }
-
-
     /**
      * @param commandeDTO $commandeDTO
      * @return commandeDTO
@@ -59,12 +60,13 @@ class ServiceCommande {
         try {
             $newCommande = new Commande();
             $newCommande->id = Uuid::uuid4()->toString();
-            $newCommande->date_commande = new Date('Y-m-d H:i:s');
+            $newCommande->date_commande = \date("Y-m-d h:i:s");
             $newCommande->etat = Commande::ETAT_CREE;
             $newCommande->montant_total = $montant_total;
-            $newCommande->id_client = $commandeDTO->email_client;
+            $newCommande->mail_client = $commandeDTO->email_client;
+            $newCommande->type_livraison = $commandeDTO->type_livraison;
             $newCommande->saveOrFail();
-        }catch (\Throwable $e) {
+        }catch (\Throwable | Exception $e) {
             throw new CreerCommandeException($e->getMessage());
         }
         $commandeDTO->id = $newCommande->id;

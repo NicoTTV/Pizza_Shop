@@ -1,6 +1,6 @@
 <?php
 
-namespace pizzashop\src\domain\services\catalogue;
+namespace pizzashop\shop\domain\services\exceptions;
 
 class ProduitIntrouvableException extends \Exception
 {
