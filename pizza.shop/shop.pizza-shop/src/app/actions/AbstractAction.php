@@ -15,18 +15,16 @@ abstract class AbstractAction
     {
         $data = [
             'type' => 'ressource',
-            'commande' => [],
-        ];
-
-        $data['commande'][] = [
-            'id' => $commande->id,
-            'date_commande' => $commande->date_commande,
-            'type_livraison' => $commande->type_livraison,
-            'etat' => $commande->etat,
-            'mail_client' => $commande->email_client,
-            'montant' => $commande->montant,
-            'delai' => $commande->delai,
-            'items' => []
+            'commande' => [
+                'id' => $commande->id,
+                'date_commande' => $commande->date_commande,
+                'type_livraison' => $commande->type_livraison,
+                'etat' => $commande->etat,
+                'mail_client' => $commande->email_client,
+                'montant' => $commande->montant,
+                'delai' => $commande->delai,
+                'items' => []
+            ]
         ];
 
         foreach ($commande->items as $it){
