@@ -42,11 +42,12 @@ class Commande extends \Illuminate\Database\Eloquent\Model
         $commandeDTO->id = $this->id;
         $commandeDTO->date_commande = ($this->date_commande) /*->format(Y-m-d H: i:s')*/;
         $commandeDTO->etat = $this->etat;
-        $commandeDTO->montant = $this->motant_total;
+        $commandeDTO->montant = doubleval($this->montant_total);
         $commandeDTO->delai = $this->delai ?? 0;
         foreach ($this->items as $item) {
             $commandeDTO->addItem($item->toDTO());
         }
         return $commandeDTO;
+
     }
 }

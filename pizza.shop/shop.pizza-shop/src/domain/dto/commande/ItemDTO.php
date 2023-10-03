@@ -22,6 +22,12 @@ class ItemDTO extends \pizzashop\shop\domain\dto\DTO{
         return $this->$att;
     }
 
+
+    public function __set(string $name, $value): void
+    {
+        $this->$name = $value;
+    }
+
     /**
      * @param mixed $libelle
      */

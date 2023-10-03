@@ -29,7 +29,7 @@ class CreerCommandeAction extends AbstractAction {
             $commandeDTO->addItem(new ItemDTO($item['numero'], $item['taille'], $item['quantite']));
         }
         $commande = $this->comm->creerCommande($commandeDTO);
-        var_dump($commande);
+        //var_dump($commande);
         $api = $this->formaterCommande($commande);
         $response->getBody()->write(json_encode($api));
 

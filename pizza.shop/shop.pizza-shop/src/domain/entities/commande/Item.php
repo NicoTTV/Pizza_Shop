@@ -10,6 +10,7 @@ class Item extends \Illuminate\Database\Eloquent\Model
     protected $primaryKey = 'id';
     public $timestamps = false;
     protected $connection = 'commande';
+    protected $fillable = ['numero', 'libelle', 'taille', 'libelle_taille', 'tarif', 'quantite', 'commande_id'];
 
     public function commande()
     {
