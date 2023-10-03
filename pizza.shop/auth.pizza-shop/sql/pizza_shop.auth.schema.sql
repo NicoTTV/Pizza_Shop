@@ -16,8 +16,9 @@ CREATE TABLE `users` (
   `refresh_token_expiration_date` timestamp NULL DEFAULT NULL,
   `reset_passwd_token` varchar(64) DEFAULT NULL,
   `reset_passwd_token_expiration_date` timestamp NULL DEFAULT NULL,
+  `username` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
--- 2023-09-25 08:36:44
+-- 2023-10-03 13:52:01
