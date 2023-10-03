@@ -6,7 +6,8 @@ use Slim\Factory\AppFactory;
 
 $builder = new ContainerBuilder();
 $builder->addDefinitions(__DIR__ . '/settings.php');
-$builder->addDefinitions(__DIR__ . '/service.php');
+$builder->addDefinitions(__DIR__ . '/services.php');
+$builder->addDefinitions(__DIR__ . '/actions.php');
 $c=$builder->build();
 $app = AppFactory::createFromContainer($c);
 

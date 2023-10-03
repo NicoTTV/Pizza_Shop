@@ -6,13 +6,15 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
+use Slim\Routing\RouteContext;
 
 abstract class AbstractAction
 {
     public abstract function __invoke (Request $request,Response $response, $args): ResponseInterface;
 
-    protected function formaterCommande($commande): array
+    protected function formaterCommande($commande, $request): array
     {
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
         $data = [
             'type' => 'ressource',
             'commande' => [
@@ -24,6 +26,10 @@ abstract class AbstractAction
                 'montant' => $commande->montant,
                 'delai' => $commande->delai,
                 'items' => []
+            ],
+            "links" => [
+                'self' => ['href'=> $routeParser->urlFor('commande', ['id_commande' => $commande->id])],
+                'valider'=> ['href'=> $routeParser->urlFor('valider', ['id_commande'=>$commande->id])]
             ]
         ];
 

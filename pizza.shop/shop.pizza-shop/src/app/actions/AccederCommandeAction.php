@@ -8,6 +8,7 @@ use pizzashop\shop\domain\services\commande\ServiceCommande;
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
@@ -28,13 +29,14 @@ class AccederCommandeAction extends AbstractAction {
     public function __invoke(Request $request, Response $response, $args): ResponseInterface {
 
         $UUID = $request->getAttribute('id_commande');
+        if (is_null($UUID)) throw new HttpBadRequestException($request, 'Missing id_commande');
         try {
             $commande = $this->comm->accederCommande($UUID);
         } catch (serviceCommandeNotFoundException $e) {
             throw new HttpNotFoundException($request, $e->getMessage());
         }
 
-        $data = $this->formaterCommande($commande);
+        $data = $this->formaterCommande($commande, $request);
 
 
         $response->getBody()->write(json_encode($data));

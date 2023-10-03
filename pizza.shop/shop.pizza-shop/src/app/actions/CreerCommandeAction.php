@@ -30,7 +30,7 @@ class CreerCommandeAction extends AbstractAction {
         }
         $commande = $this->comm->creerCommande($commandeDTO);
         //var_dump($commande);
-        $api = $this->formaterCommande($commande);
+        $api = $this->formaterCommande($commande, $request);
         $response->getBody()->write(json_encode($api));
 
         return
