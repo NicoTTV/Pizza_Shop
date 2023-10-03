@@ -12,6 +12,9 @@ use pizzashop\shop\domain\services\exceptions\ServiceCommandeEnregistrementExcep
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeInvalidException;
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeNotFoundException;
 use Ramsey\Uuid\Uuid;
+use Respect\Validation\Exceptions\NestedValidationException;
+use Respect\Validation\Exceptions\NullableException;
+use Respect\Validation\Validator as v;
 
 class ServiceCommande {
 
@@ -56,6 +59,22 @@ class ServiceCommande {
         return $commande->toDTO();
     }
 
+    private function validerDonneesCommande(CommandeDTO $commandeDTO): void {
+        try {
+            v::attribute('mail_client', v::email())
+                ->attribute('type_livraison', v::in([Commande::LIVRAISON_PLACE, Commande::LIVRAISON_EMPORTER, Commande::ETAT_CREE]))
+                    ->attribute('items', v::arrayVal()->notEmpty()
+                        ->each(v::attribute('numero', v::intVal()->positive())
+                            ->attribute('taille', v::in([1,2]))
+                            ->attribute('quantite', v::intVal()->positive())
+                        )
+                    )
+                    ->assert($commandeDTO);
+        } catch(NestedValidationException $e) {
+            throw new ServiceUnvalidDataException('données de commande invalides');
+        }
+    }
+
     /**
      * @param commandeDTO $commandeDTO
      * @return commandeDTO
@@ -82,13 +101,22 @@ class ServiceCommande {
             $newCommande->mail_client = $commandeDTO->email_client;
             $newCommande->type_livraison = $commandeDTO->type_livraison;
             $newCommande->saveOrFail();
-        }catch (\Throwable | Exception $e) {
+        } catch (\Throwable | Exception $e) {
             throw new CreerCommandeException($e->getMessage());
         }
         $commandeDTO->id = $newCommande->id;
         $commandeDTO->delai = 0;
         $commandeDTO->montant = $montant_total;
         $commandeDTO->date_commande = $newCommande->date_commande;
+
+        /*
+        try {
+            v::in(1)->validate()
+        } catch (NullableException $e) {
+            throw new \Exception();
+        }
+        */
+
         return $commandeDTO;
     }
 }
