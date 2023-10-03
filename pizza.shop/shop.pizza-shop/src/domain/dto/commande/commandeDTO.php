@@ -13,7 +13,7 @@ class commandeDTO extends \pizzashop\shop\domain\dto\DTO{
     private $montant;
     private $delai;
     private $email_client;
-    private array $items;
+    private array $items = array();
     private $etat;
 
     public function __construct(String $email_client, Int $type_livraison) {

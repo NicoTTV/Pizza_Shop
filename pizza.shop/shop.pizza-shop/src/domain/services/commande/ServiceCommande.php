@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PHPUnit\Logging\Exception;
 use pizzashop\shop\domain\dto\commande\commandeDTO;
 use pizzashop\shop\domain\entities\commande\Commande;
+use pizzashop\shop\domain\entities\commande\Item;
 use pizzashop\shop\domain\services\exceptions\CreerCommandeException;
 use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
 use pizzashop\shop\domain\services\exceptions\ProduitIntrouvableException;
@@ -87,14 +88,22 @@ class ServiceCommande {
      */
     public function creerCommande(CommandeDTO $commandeDTO) {
         $montant_total = 0;
+        $commandeId = Uuid::uuid4()->toString();
         foreach ($commandeDTO->items as $item) {
             $infoProduit = $this->serviceCatalogue->getProduit($item->numero, $item->taille);
             $montant_total += $infoProduit->tarif * $item->quantite;
+            $item->libelle = $infoProduit->libelle_produit;
+            $item->tarif = $infoProduit->tarif;
+            $item->libelleTaille = $infoProduit->libelle_taille;
+            $itemData = array('numero' => $item->numero, 'libelle' => $item->libelle,
+                'taille' => $item->taille, 'libelle_taille' => $item->libelleTaille,
+                'tarif' => $item->tarif, 'quantite' => $item->quantite, 'commande_id' => $commandeId);
+            Item::create($itemData);
         }
 
         try {
             $newCommande = new Commande();
-            $newCommande->id = Uuid::uuid4()->toString();
+            $newCommande->id = $commandeId;
             $newCommande->date_commande = \date("Y-m-d h:i:s");
             $newCommande->etat = Commande::ETAT_CREE;
             $newCommande->montant_total = $montant_total;
@@ -104,6 +113,7 @@ class ServiceCommande {
         } catch (\Throwable | Exception $e) {
             throw new CreerCommandeException($e->getMessage());
         }
+        $commandeDTO->etat = $newCommande->etat;
         $commandeDTO->id = $newCommande->id;
         $commandeDTO->delai = 0;
         $commandeDTO->montant = $montant_total;
