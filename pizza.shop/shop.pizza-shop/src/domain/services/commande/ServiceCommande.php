@@ -67,6 +67,9 @@ class ServiceCommande {
         foreach ($commandeDTO->items as $item) {
             $infoProduit = $this->serviceCatalogue->getProduit($item->numero, $item->taille);
             $montant_total += $infoProduit->tarif * $item->quantite;
+            $item->libelle = $infoProduit->libelle;
+            $item->tarif = $infoProduit->tarif;
+            $item->libelleTaille = $infoProduit->libelle_taille;
         }
 
         try {
