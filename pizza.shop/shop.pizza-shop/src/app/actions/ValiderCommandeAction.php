@@ -16,28 +16,33 @@ use Slim\Psr7\Response;
 
 class ValiderCommandeAction extends AbstractAction
 {
+    private ServiceCommande $comm;
+
+    /**
+     * @param ServiceCommande $comm
+     */
+    public function __construct(ServiceCommande $comm)
+    {
+        $this->comm = $comm;
+    }
 
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
-        $serviceCatalogue = new ServiceCatalogue();
-        $serviceCommande = new ServiceCommande($serviceCatalogue);
-        $bodyParams = $request->getParsedBody();
         $uuid = $args["id_commande"] ?? "";
-        if ($bodyParams["etat"]) {
-            try {
-                $commande = $serviceCommande->validerCommande($uuid);
-            } catch (ServiceCommandeNotFoundException $e) {
-                throw new HttpNotFoundException($request, "Commande inexistante");
-            } catch (ServiceCommandeInvalidException $e) {
-                throw new HttpBadRequestException($request, "Commande invalide");
-            } catch (ServiceCommandeEnregistrementException $e) {
-                throw new HttpInternalServerErrorException($request, "Une erreur est survenue pendant la validation de la commande");
-            }
+        try {
+            $commande = $this->comm->validerCommande($uuid);
+        } catch (ServiceCommandeNotFoundException $e) {
+            throw new HttpNotFoundException($request, "Commande inexistante");
+        } catch (ServiceCommandeInvalidException $e) {
+            throw new HttpBadRequestException($request, "Commande invalide");
+        } catch (ServiceCommandeEnregistrementException $e) {
+            throw new HttpInternalServerErrorException($request, "Une erreur est survenue pendant la validation de la commande");
         }
 
-        $data = $this->formaterCommande($commande);
 
-        $response->getBody()->write($data);
+        $data = $this->formaterCommande($commande, $request);
+
+        $response->getBody()->write(json_encode($data));
         return
             $response->withHeader('Content-Type','application/json')
                 ->withHeader('Access-Control-Allow-Origin','*')
