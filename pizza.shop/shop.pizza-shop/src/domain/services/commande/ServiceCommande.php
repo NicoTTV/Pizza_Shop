@@ -1,6 +1,7 @@
 <?php
 namespace pizzashop\shop\domain\services\commande;
 
+use DI\NotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PHPUnit\Logging\Exception;
 use pizzashop\shop\domain\dto\commande\commandeDTO;
@@ -12,6 +13,7 @@ use pizzashop\shop\domain\services\exceptions\ProduitIntrouvableException;
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeEnregistrementException;
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeInvalidException;
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeNotFoundException;
+use pizzashop\shop\domain\services\exceptions\ServiceUnvalidDataException;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Exceptions\NullableException;
@@ -54,7 +56,7 @@ class ServiceCommande {
         try {
             $commande->etat = Commande::ETAT_VALIDE;
             $commande->saveOrFail();
-        }catch(\Throwable $throwable) {
+        } catch(\Throwable $throwable) {
             throw new ServiceCommandeEnregistrementException("Une erreur est survenue lors de la sauvegarde: $throwable");
         }
         return $commande->toDTO();
@@ -73,6 +75,8 @@ class ServiceCommande {
                     ->assert($commandeDTO);
         } catch(NestedValidationException $e) {
             throw new ServiceUnvalidDataException('données de commande invalides');
+        } catch(NotFoundException $e) {
+            throw new ServiceUnvalidDataException('dgtyhu-(,');
         }
     }
 
@@ -118,14 +122,6 @@ class ServiceCommande {
         $commandeDTO->delai = 0;
         $commandeDTO->montant = $montant_total;
         $commandeDTO->date_commande = $newCommande->date_commande;
-
-        /*
-        try {
-            v::in(1)->validate()
-        } catch (NullableException $e) {
-            throw new \Exception();
-        }
-        */
 
         return $commandeDTO;
     }
