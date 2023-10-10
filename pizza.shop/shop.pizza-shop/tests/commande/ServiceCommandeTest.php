@@ -55,7 +55,7 @@ class ServiceCommandeTest extends \PHPUnit\Framework\TestCase {
             $commande = new \pizzashop\shop\domain\entities\commande\Commande();
             $commande->id = self::$faker->uuid;
             $commande->type_livraison = self::$faker->randomElement([
-                Commande::LIVRAISON_SUR_PLACE, Commande::LIVRAISON_A_EMPORTER, Commande::LIVRAISON_A_DOMICILE
+                Commande::LIVRAISON_PLACE, Commande::LIVRAISON_EMPORTER, Commande::LIVRAISON_DOMICILE
             ]);
             $fake_date = self::$faker->dateTimeBetween('-1 year', 'now');
 
