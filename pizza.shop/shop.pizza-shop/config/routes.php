@@ -14,4 +14,8 @@ return function( \Slim\App $app):void {
 
     $app->patch("/commandes/{id_commande}[/]", \pizzashop\shop\app\actions\ValiderCommandeAction::class)
         ->setName("valider");
+
+    $app->options('/{routes:.+}', function ($request, $response, $args) {
+        return $response;
+    });
 };
