@@ -32,15 +32,16 @@ class AuthProviderTest extends TestCase
 
     public static function tearDownAfterClass(): void
     {
-        parent::tearDown();
+        parent::tearDownAfterClass();
         self::cleanDB();
     }
 
 
     private static function cleanDB()
     {
-        foreach (self::$user as $id) {
-            User::find($id["email"])->delete();
+        foreach (self::$user as $user) {
+            $currentUser = User::find($user["email"]);
+            $currentUser->delete();
         }
     }
 
