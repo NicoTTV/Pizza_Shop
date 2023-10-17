@@ -4,11 +4,17 @@ namespace pizzashop\auth\api\domain\dto;
 
 class TokenDTO
 {
-    public string $active;
-    public string $activation_token;
-    public string $activation_token_expiration_date;
-    public string $refresh_token;
-    public string $refresh_token_expiration_date;
-    public string $reset_passwd_token;
-    public string $reset_passwd_token_expiration_date;
+    public $access_token;
+    public $refresh_token;
+    public $activation_token;
+
+    /**
+     * @param $access_token
+     * @param $refresh_token
+     */
+    public function __construct($access_token, $refresh_token)
+    {
+        $this->access_token = $access_token;
+        $this->refresh_token = $refresh_token;
+    }
 }

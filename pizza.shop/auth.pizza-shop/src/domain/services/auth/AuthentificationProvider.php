@@ -8,6 +8,7 @@ use pizzashop\auth\api\domain\dto\UserDTO;
 use pizzashop\auth\api\domain\entities\User;
 use pizzashop\auth\api\domain\services\exceptions\InactivatedUserException;
 use pizzashop\auth\api\domain\services\exceptions\PasswordNotMatchException;
+use pizzashop\auth\api\domain\services\exceptions\RefreshTokenCreationFailedException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenErrorException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenExpiredException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenNotFoundException;
@@ -17,15 +18,20 @@ class AuthentificationProvider
 {
 
     private string $refreshToken;
+    private User $user;
+
     /**
-     * @throws UserNotFoundException
+     * @param $email
+     * @param $password
      * @throws InactivatedUserException
      * @throws PasswordNotMatchException
+     * @throws RefreshTokenCreationFailedException
+     * @throws UserNotFoundException
      */
-    public function checkCredentials($userId, $password): void
+    public function checkCredentials($email, $password): void
     {
         try {
-            $user = User::select('username','email','password','active')->findOrFail($userId);
+            $user = User::findOrFail($email);
         } catch (ModelNotFoundException $e) {
             throw new UserNotFoundException();
         }
@@ -38,13 +44,16 @@ class AuthentificationProvider
                 throw new PasswordNotMatchException();
             }
         }
-
+        $this->createRefreshToken($user);
+        $this->user = $user;
     }
 
     /**
-     * @throws RefreshTokenNotFoundException
+     * @param $token
+     * @throws RefreshTokenCreationFailedException
      * @throws RefreshTokenErrorException
      * @throws RefreshTokenExpiredException
+     * @throws RefreshTokenNotFoundException
      */
     public function checkToken($token): void
     {
@@ -60,28 +69,32 @@ class AuthentificationProvider
         }catch (Exception $e) {
             throw new RefreshTokenErrorException($e->getMessage());
         }
-
-        $this->refreshToken = $token;
+        $this->createRefreshToken($user);
+        $this->user = $user;
     }
 
-    /**
-     * @throws UserNotFoundException
-     * @throws RefreshTokenExpiredException
-     */
     public function getAuthentifiedUser(): UserDTO {
-        try {
-            $user = User::select('email','username','refresh_token', 'refresh_token_expiration_date')->where('refresh_token', $this->refreshToken)->firstOrFail();
-        }catch (ModelNotFoundException $e) {
-            throw new UserNotFoundException();
-        }
-        if ($user->refresh_token_expiration_date < date('Y-m-d H:i:s'))
-            throw new RefreshTokenExpiredException();
-        return new UserDTO($user->username, $user->email, $user->refresh_token);
+        return new UserDTO($this->user->username, $this->user->email, $this->user->refresh_token);
     }
     
     public function register(string $user, string $pass) {}
 
     public function activate(string $token) {}
+
+    /**
+     * @throws RefreshTokenCreationFailedException
+     */
+    public function createRefreshToken($user): void
+    {
+        try {
+            $refreshToken = bin2hex(random_bytes(32));
+            $user->refresh_token = $refreshToken;
+            $user->refresh_token_expiration_date = date('Y-m-d H:i:s', strtotime('+1 year'));
+            $user->saveOrFail();
+        }catch (\Throwable $e) {
+            throw new RefreshTokenCreationFailedException($e->getMessage());
+        }
+    }
 
     public function unsetRefreshTokenForTest(): void
     {

@@ -13,7 +13,7 @@ class UserDTO
      * @param string $email
      * @param string $refresh_token
      */
-    public function __construct(string $username, string $email, string $refresh_token)
+    public function __construct(string $username, string $email, string $refresh_token = "")
     {
         $this->username = $username;
         $this->email = $email;
