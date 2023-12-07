@@ -12,7 +12,7 @@ class TokenDTO
      * @param $access_token
      * @param $refresh_token
      */
-    public function __construct($access_token, $refresh_token)
+    public function __construct($access_token, $refresh_token = null)
     {
         $this->access_token = $access_token;
         $this->refresh_token = $refresh_token;

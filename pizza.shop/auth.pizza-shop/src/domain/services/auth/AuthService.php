@@ -49,7 +49,6 @@ class AuthService implements AuthServiceInterface
     /**
      * @param CredentialsDTO $credentialsDTO
      * @return TokenDTO
-     * @throws AccessTokenCreationFailedException
      * @throws CredentialsControlFailedException
      */
     public function signin(CredentialsDTO $credentialsDTO): TokenDTO
@@ -58,14 +57,10 @@ class AuthService implements AuthServiceInterface
         try {
             $this->authProvider->checkCredentials($credentialsDTO->email, $credentialsDTO->password);
         } catch (InactivatedUserException|UserNotFoundException|PasswordNotMatchException|RefreshTokenCreationFailedException $e) {
-            throw new CredentialsControlFailedException();
+            throw new CredentialsControlFailedException($e->getMessage());
         }
         $user = $this->authProvider->getAuthentifiedUser();
-        try {
-            $access_token = $this->jwtManager->create($user);
-        } catch (InvalidJwtExpirationException|JwtSecretException $e) {
-            throw new AccessTokenCreationFailedException();
-        }
+        $access_token = $this->jwtManager->create($user);
         return new TokenDTO($access_token, $user->refresh_token);
     }
 
@@ -91,8 +86,6 @@ class AuthService implements AuthServiceInterface
     /**
      * @param TokenDTO $tokenDTO
      * @return TokenDTO
-     * @throws InvalidJwtExpirationException
-     * @throws JwtSecretException
      * @throws RefreshTokenControlFailedException
      */
     public function refresh(TokenDTO $tokenDTO): TokenDTO
