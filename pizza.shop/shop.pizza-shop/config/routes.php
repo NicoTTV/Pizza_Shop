@@ -24,12 +24,6 @@ return function( \Slim\App $app):void {
     $app->get('/categories/{id_categorie}/produits[/]', \pizzashop\shop\app\actions\ListerProduitsParCategorieAction::class)
         ->setName('produits_par_categorie');
 
-
-    $app->get('/test', function (Request $request, Response $response) {
-        $response->getBody()->write("Hello World");
-        return $response->withHeader('Content-Type', 'text/plain');
-    });
-
     $app->options('/{routes:.+}', function ($request, $response, $args) {
         return $response;
     });

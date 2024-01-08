@@ -9,13 +9,14 @@ class ProduitDTO extends \pizzashop\shop\domain\dto\DTO
     public string $libelle_produit;
     public string $image;
 
-    public int $categorie_id;
+    public CategorieDTO $categorie;
+    public array $tarifs;
 
-    public function __construct(int $numero_produit, string $libelle_produit, $idCat)
+    public function __construct(int $numero_produit, string $libelle_produit, $categ)
     {
         $this->numero_produit = $numero_produit;
         $this->libelle_produit = $libelle_produit;
-        $this->categorie_id = $idCat;
+        $this->categorie = $categ;
     }
 
     function __get($name){

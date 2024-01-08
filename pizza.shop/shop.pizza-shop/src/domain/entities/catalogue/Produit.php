@@ -17,9 +17,13 @@ class Produit extends \Illuminate\database\eloquent\Model
         return $this->belongsTo(Categorie::class, 'categorie_id');
     }
 
-    public function tarif(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function tailles()
     {
-        return $this->belongsToMany(Taille::class, 'tarif', 'produit_id', 'taille_id')
-            ->withPivot('tarif');
+        return $this->belongsToMany(Taille::class, 'produit_taille', 'produit_id', 'taille_id');
+    }
+
+    function tarif()
+    {
+        return $this->hasMany(Tarif::class, 'produit_id');
     }
 }
