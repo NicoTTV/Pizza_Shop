@@ -12,8 +12,14 @@ return [
         return new \pizzashop\auth\api\domain\services\auth\AuthService($container->get('auth.provider'), $container->get('jwt.manager'));
     },
 
-    \pizzashop\auth\api\app\actions\SigninAction::class => function(\Psr\Container\ContainerInterface $container){
-    return new \pizzashop\auth\api\app\actions\SigninAction($container->get('auth.service'));
-},
+    \pizzashop\auth\api\app\actions\ValidateAction::class => function(\Psr\Container\ContainerInterface $container) {
+        return new \pizzashop\auth\api\app\actions\ValidateAction($container->get('auth.service'));
+    },
+    \pizzashop\auth\api\app\actions\SigninAction::class => function(\Psr\Container\ContainerInterface $container) {
+        return new \pizzashop\auth\api\app\actions\SigninAction($container->get('auth.service'));
+    },
+    \pizzashop\auth\api\app\actions\RefreshAction::class => function(\Psr\Container\ContainerInterface $container) {
+        return new \pizzashop\auth\api\app\actions\RefreshAction($container->get('auth.service'));
+    },
 
 ];

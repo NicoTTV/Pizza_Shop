@@ -17,7 +17,7 @@ class RefreshAction extends AbstractAction
         $h = $request->getHeader('Authorization')[0];
         $tokenstring = sscanf($h, "Bearer %s")[0];
         try {
-            $tokenDTO = $this->authService->refresh(new TokenDTO($tokenstring));
+            $tokenDTO = $this->authService->refresh(new TokenDTO(refresh_token: $tokenstring));
         } catch (RefreshTokenControlFailedException $e) {
             return $this->showError($e, $response);
         }
