@@ -10,24 +10,15 @@ use pizzashop\shop\domain\services\exceptions\ProduitIntrouvableException;
 class ServiceCatalogue implements iInfoProduit
 {
 
-    /** Pour plus tard */
-    /**
-     * public function getAllProducts(): array
-     * {
-     * $produits = Produit::all();
-     * $produitsDTO = [];
-     * foreach ($produits as $produit) {
-     * $taille = $produit->tailles()->first();
-     * $produitsDTO[] = new ProduitDTO($produit->numero, $produit->libelle, $produit->categorie_id,$taille->libelle,$taille->tarif->tarif);
-     * }
-     * return $produitsDTO;
-     * }
-     *
-     * public function getProduitsParCategorie(): array
-     * {
-     *
-     * }
-     */
+     public function getAllProducts(): array {
+         $produits = Produit::all();
+         $produitsDTO = [];
+         foreach ($produits as $produit) {
+             $produitsDTO[] = new ProduitDTO($produit->numero, $produit->libelle, $produit->categorie_id);
+         }
+         return $produitsDTO;
+     }
+
 
      /**
      * @throws ProduitIntrouvableException

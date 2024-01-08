@@ -15,6 +15,21 @@ return function( \Slim\App $app):void {
     $app->patch("/commandes/{id_commande}[/]", \pizzashop\shop\app\actions\ValiderCommandeAction::class)
         ->setName("valider");
 
+    $app->get('/produits[/]', \pizzashop\shop\app\actions\ListerProduitsAction::class)
+        ->setName('produits');
+
+    $app->get('/produits/{id_produit}[/]', \pizzashop\shop\app\actions\AccederProduitAction::class)
+        ->setName('produit');
+
+    $app->get('/categories/{id_categorie}/produits[/]', \pizzashop\shop\app\actions\ListerProduitsParCategorieAction::class)
+        ->setName('produits_par_categorie');
+
+
+    $app->get('/test', function (Request $request, Response $response) {
+        $response->getBody()->write("Hello World");
+        return $response->withHeader('Content-Type', 'text/plain');
+    });
+
     $app->options('/{routes:.+}', function ($request, $response, $args) {
         return $response;
     });

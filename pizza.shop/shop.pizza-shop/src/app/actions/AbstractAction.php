@@ -45,4 +45,25 @@ abstract class AbstractAction
         }
         return $data;
     }
+
+    function formaterCatalogue($catalogue, $request): array
+    {
+        $routeParser = RouteContext::fromRequest($request)->getRouteParser();
+        $data = [
+            'type' => 'ressource',
+            'produits' => []
+        ];
+        foreach ($catalogue as $produit){
+            $data['produits'][] = [
+                'id' => $produit->numero_produit,
+                'libelle' => $produit->libelle_produit,
+                'categorie' => $produit->categorie_id,
+                'links' => [
+                    'self' => ['href'=> $routeParser->urlFor('produit', ['id_produit' => $produit->numero_produit])],
+                    'categorie' => ['href'=> $routeParser->urlFor('produits_par_categorie', ['id_categorie' => $produit->categorie_id])]
+                ]
+            ];
+        }
+        return $data;
+    }
 }

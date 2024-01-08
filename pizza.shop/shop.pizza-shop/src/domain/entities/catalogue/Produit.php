@@ -17,7 +17,7 @@ class Produit extends \Illuminate\database\eloquent\Model
         return $this->belongsTo(Categorie::class, 'categorie_id');
     }
 
-    public function tailles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function tarif(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Taille::class, 'tarif', 'produit_id', 'taille_id')
             ->withPivot('tarif');
