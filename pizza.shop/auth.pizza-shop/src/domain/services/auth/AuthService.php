@@ -53,7 +53,6 @@ class AuthService implements AuthServiceInterface
      */
     public function signin(CredentialsDTO $credentialsDTO): TokenDTO
     {
-
         try {
             $this->authProvider->checkCredentials($credentialsDTO->email, $credentialsDTO->password);
         } catch (InactivatedUserException|UserNotFoundException|PasswordNotMatchException|RefreshTokenCreationFailedException $e) {
@@ -75,11 +74,13 @@ class AuthService implements AuthServiceInterface
         try {
             $payload = $this->jwtManager->validate($tokenDTO->access_token);
         } catch (JwtManagerExpiredTokenException $e) {
-            throw new AccessTokenExpiredException();
+            throw new AccessTokenExpiredException($e->getMessage());
         } catch (JwtManagerInvalidTokenException $e) {
-            throw new AccessTokenValidationFailedException();
+            throw new AccessTokenValidationFailedException($e->getMessage());
         }
-        return new UserDTO($payload['upr']['username'], $payload['upr']['email']);
+        $username = $payload->{'0'}->upr->username;
+        $email = $payload->{'0'}->upr->email;
+        return new UserDTO($username, $email);
     }
 
 
@@ -93,11 +94,11 @@ class AuthService implements AuthServiceInterface
         try {
             $this->authProvider->checkToken($tokenDTO->refresh_token);
         } catch (RefreshTokenCreationFailedException|RefreshTokenErrorException|RefreshTokenExpiredException|RefreshTokenNotFoundException $e) {
-            throw new RefreshTokenControlFailedException();
+            throw new RefreshTokenControlFailedException($e->getMessage());
         }
         $user = $this->authProvider->getAuthentifiedUser();
         $access_token = $this->jwtManager->create($user);
-        return new TokenDTO($access_token, $tokenDTO->refresh_token);
+        return new TokenDTO($access_token, $user->refresh_token);
     }
 
     public function activate_signup(TokenDTO $tokenDTO): void

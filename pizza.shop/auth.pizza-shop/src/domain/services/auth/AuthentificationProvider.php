@@ -2,6 +2,7 @@
 
 namespace pizzashop\auth\api\domain\services\auth;
 
+use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PHPUnit\Exception;
 use pizzashop\auth\api\domain\dto\UserDTO;
@@ -13,6 +14,7 @@ use pizzashop\auth\api\domain\services\exceptions\RefreshTokenErrorException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenExpiredException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenNotFoundException;
 use pizzashop\auth\api\domain\services\exceptions\UserNotFoundException;
+use Throwable;
 
 class AuthentificationProvider
 {
@@ -57,29 +59,33 @@ class AuthentificationProvider
      */
     public function checkToken($token): void
     {
-        $user = User::where('refresh_token', $token);
         try {
-            if (!$user->exists())
-                throw new RefreshTokenNotFoundException();
-            else {
-                $user = $user->firstOrFail();
-                if ($user->refresh_token_expiration_date < date('Y-m-d H:i:s'))
-                    throw new RefreshTokenExpiredException();
-            }
-        }catch (Exception $e) {
-            throw new RefreshTokenErrorException($e->getMessage());
+            $user = User::where('refresh_token', $token)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            throw new RefreshTokenNotFoundException("user not found");
+        }
+        try {
+            if (new DateTime($user->refresh_token_expiration_date) < date('Y-m-d H:i:s'))
+                throw new RefreshTokenExpiredException("refresh token expired");
+        } catch (\Exception $e) {
+            throw new RefreshTokenErrorException("Une erreur est survenue ".$e->getMessage());
         }
         $this->createRefreshToken($user);
         $this->user = $user;
     }
 
-    public function getAuthentifiedUser(): UserDTO {
+    public function getAuthentifiedUser(): UserDTO
+    {
         return new UserDTO($this->user->username, $this->user->email, $this->user->refresh_token);
     }
-    
-    public function register(string $user, string $pass) {}
 
-    public function activate(string $token) {}
+    public function register(string $user, string $pass)
+    {
+    }
+
+    public function activate(string $token)
+    {
+    }
 
     /**
      * @throws RefreshTokenCreationFailedException
@@ -91,7 +97,7 @@ class AuthentificationProvider
             $user->refresh_token = $refreshToken;
             $user->refresh_token_expiration_date = date('Y-m-d H:i:s', strtotime('+1 year'));
             $user->saveOrFail();
-        }catch (\Throwable $e) {
+        } catch (Throwable $e) {
             throw new RefreshTokenCreationFailedException($e->getMessage());
         }
     }
