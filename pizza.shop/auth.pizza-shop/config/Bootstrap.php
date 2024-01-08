@@ -11,6 +11,7 @@ $builder->addDefinitions(__DIR__ . '/service.php');
 $c=$builder->build();
 $app = AppFactory::createFromContainer($c);
 
+$app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
 $errorMiddleware = $app->addErrorMiddleware($c->get('displayErrorDetails'),false,false);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();

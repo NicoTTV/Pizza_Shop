@@ -84,11 +84,7 @@ class ServiceCommande {
      * @param commandeDTO $commandeDTO
      * @return commandeDTO
      * @throws CreerCommandeException
-     * @throws ProduitIntroCommande->id = Uuid::uuid4()->toString();
-            $newCommande->date_commande = \date("Y-m-d h:i:s");
-            $newCommande->etat = Commande::ETAT_CREE;
-            $newCommande->montant_total = $montant_total;
-            $newCommande->mail_client = $commandeDTO->email_client;uvableException
+     * @throws ProduitIntrouvableException
      */
     public function creerCommande(CommandeDTO $commandeDTO) {
         $montant_total = 0;
@@ -124,5 +120,22 @@ class ServiceCommande {
         $commandeDTO->date_commande = $newCommande->date_commande;
 
         return $commandeDTO;
+    }
+
+    /**
+     * @throws ServiceCommandeNotFoundException
+     * @throws ServiceCommandeInvalidException
+     */
+    public function checkIfUserIsOwner($commandeId, $email): true
+    {
+        try {
+            $commande = Commande::where('id', $commandeId)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            throw new ServiceCommandeNotFoundException("commande not found");
+        }
+        if ($commande->mail_client !== $email){
+            throw new ServiceCommandeInvalidException("not owner");
+        }
+        return true;
     }
 }
