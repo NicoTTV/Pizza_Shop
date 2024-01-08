@@ -1,7 +1,8 @@
 <?php
 
-namespace pizzashop\shop\app\actions;
+namespace pizzashop\shop\app\actions\commandes;
 
+use pizzashop\shop\app\actions\AbstractAction;
 use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
 use pizzashop\shop\domain\services\commande\ServiceCommande;
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeInvalidException;
