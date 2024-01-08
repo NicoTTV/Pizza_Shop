@@ -19,4 +19,17 @@ return function( \Slim\App $app):void {
 
     $app->patch("/commandes/{id_commande}[/]", ValiderCommandeAction::class)
         ->setName("valider")->add(CheckIfOwner::class)->add(CheckAuthUser::class);
+
+    $app->get('/produits[/]', \pizzashop\shop\app\actions\ListerProduitsAction::class)
+        ->setName('produits');
+
+    $app->get('/produits/{id_produit}[/]', \pizzashop\shop\app\actions\AccederProduitAction::class)
+        ->setName('produit');
+
+    $app->get('/categories/{id_categorie}/produits[/]', \pizzashop\shop\app\actions\ListerProduitsParCategorieAction::class)
+        ->setName('produits_par_categorie');
+
+    $app->options('/{routes:.+}', function ($request, $response, $args) {
+        return $response;
+    });
 };
