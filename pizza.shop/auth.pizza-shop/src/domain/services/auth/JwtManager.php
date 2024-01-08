@@ -44,7 +44,7 @@ class JwtManager
     public function create(UserDTO $user): string
     {
         $payload[] = [
-            'iss' => $this->issuer,
+            'iss' => 'pizza-shop',
             'iat' => time(),
             'exp' => time() + $this->expiration,
             'upr' => [
@@ -66,9 +66,9 @@ class JwtManager
         try {
             return JWT::decode($token, new Key($this->secret, 'HS512'));
         }catch (ExpiredException $e) {
-            throw new JwtManagerExpiredTokenException();
+            throw new JwtManagerExpiredTokenException("token expired");
         }catch (SignatureInvalidException | \UnexpectedValueException | \DomainException $e) {
-            throw new JwtManagerInvalidTokenException();
+            throw new JwtManagerInvalidTokenException("token invalid");
         }
     }
 }
