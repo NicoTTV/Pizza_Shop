@@ -108,4 +108,21 @@ services:
     networks:
       - pizza-shop.net
 
-
+  # Service API GATEWAY pizza-shop :
+  gateway-api.pizza-shop:
+    image: 'canals/php:latest'
+    ports:
+      - '5000:80'
+      - '1446:443'
+    volumes:
+      - ../gateway.pizza-shop/public:/var/www/html
+      - ../gateway.pizza-shop:/var/www
+    working_dir: /var/www/
+    networks:
+      pizza-shop.net:
+        aliases:
+          - api-gateway.pizza-shop.local
+    depends_on:
+        - commande-api.pizza-shop
+        - catalogue-api.pizza-shop
+        - auth-api.pizza-shop
