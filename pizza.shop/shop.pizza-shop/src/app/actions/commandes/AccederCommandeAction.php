@@ -3,12 +3,9 @@
 namespace pizzashop\shop\app\actions\commandes;
 
 use pizzashop\shop\app\actions\AbstractAction;
-use pizzashop\shop\domain\entities\commande\Commande;
-use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
 use pizzashop\shop\domain\services\commande\ServiceCommande;
 use pizzashop\shop\domain\services\exceptions\ServiceCommandeNotFoundException;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Request;

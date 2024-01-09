@@ -1,6 +1,6 @@
 <?php
 
-namespace pizzashop\shop\app\catalogue\actions;
+namespace pizzashop\shop\app\actions\catalogue;
 
 use pizzashop\shop\app\actions\AbstractAction;
 use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
@@ -23,9 +23,9 @@ class ListerProduitsAction extends AbstractAction
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
         $produits = $this->cata->getAllProducts();
+
         $data = $this->formaterCatalogue($produits, $request);
         $response->getBody()->write(json_encode($data));
-        //var_dump($data);
         $response->withHeader('Content-Type','application/json')
             ->withHeader('Access-Control-Allow-Origin','*')
             ->withStatus(200);

@@ -1,6 +1,6 @@
 <?php
 
-namespace pizzashop\shop\app\catalogue\actions;
+namespace pizzashop\shop\app\actions\catalogue;
 
 use pizzashop\shop\app\actions\AbstractAction;
 use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;

@@ -10,7 +10,7 @@ class ProduitDTO extends \pizzashop\shop\domain\dto\DTO
     public string $image;
 
     public CategorieDTO $categorie;
-    public array $tarifs;
+    public array $tarifs = [];
 
     public function __construct(int $numero_produit, string $libelle_produit, $categ)
     {
