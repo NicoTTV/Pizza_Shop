@@ -1,15 +1,15 @@
 <?php
 
-namespace pizzashop\shop\app\actions\catalogue;
+namespace pizzashop\catalogue\app\actions;
 
-use pizzashop\shop\app\actions\AbstractAction;
-use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
+use pizzashop\catalogue\domain\services\catalogue\ServiceCatalogue;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
-class ListerProduitsParCategorieAction extends AbstractAction
+class ListerProduitsAction extends AbstractAction
 {
+
     private ServiceCatalogue $cata;
 
     /**
@@ -21,9 +21,7 @@ class ListerProduitsParCategorieAction extends AbstractAction
     }
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
-
-        $id = $request->getAttribute('id_categorie');
-        $produits = $this->cata->produitByCategorie($id);
+        $produits = $this->cata->getAllProducts();
 
         $data = $this->formaterCatalogue($produits, $request);
         $response->getBody()->write(json_encode($data));
@@ -32,5 +30,4 @@ class ListerProduitsParCategorieAction extends AbstractAction
             ->withStatus(200);
         return $response;
     }
-
 }

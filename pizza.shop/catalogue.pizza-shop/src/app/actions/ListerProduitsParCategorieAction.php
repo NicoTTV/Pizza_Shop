@@ -1,9 +1,8 @@
 <?php
 
-namespace pizzashop\shop\app\actions\catalogue;
+namespace pizzashop\catalogue\app\actions;
 
-use pizzashop\shop\app\actions\AbstractAction;
-use pizzashop\shop\domain\services\catalogue\ServiceCatalogue;
+use pizzashop\catalogue\domain\services\catalogue\ServiceCatalogue;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;

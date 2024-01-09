@@ -17,7 +17,10 @@ class Cors {
 
         $response = $handler->handle($request);
 
-        $response = $response->withHeader('Access-Control-Allow-Origin', $origin);
+        // Ajouter l'en-tête 'Access-Control-Allow-Origin' seulement si '$origin' n'est pas vide
+        if (!empty($origin)) {
+            $response = $response->withHeader('Access-Control-Allow-Origin', $origin[0]);
+        }
         $response = $response->withHeader('Access-Control-Allow-Methods', implode(',', $methods));
         $response = $response->withHeader('Access-Control-Allow-Credentials', 'true');
 
