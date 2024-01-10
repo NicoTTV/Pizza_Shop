@@ -2,13 +2,10 @@
 
 namespace pizzashop\commande\app\actions;
 
-use pizzashop\commande\app\actions\AbstractAction;
 use pizzashop\commande\domain\dto\commande\commandeDTO;
 use pizzashop\commande\domain\dto\commande\ItemDTO;
 use pizzashop\commande\domain\services\commande\ServiceCommande;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 

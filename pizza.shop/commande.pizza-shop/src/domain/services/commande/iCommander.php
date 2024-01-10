@@ -1,11 +1,10 @@
 <?php
 
-namespace pizzashop\src\domain\services\commande;
-
-use pizzashop\commande\domain\dto\commande\commandeDTO;
+namespace pizzashop\commande\domain\services\commande;
+use pizzashop\commande\domain\dto\commandeDTO;
 
 interface iCommander
 {
 
-    public function creerCommande(CommandeDTO $commandeDTO): void;
+    public function creerCommande(CommandeDTO $commandeDTO): commandeDTO;
 }

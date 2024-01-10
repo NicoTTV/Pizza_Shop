@@ -2,7 +2,6 @@
 
 namespace pizzashop\commande\app\actions;
 
-use pizzashop\commande\app\actions\AbstractAction;
 use pizzashop\commande\domain\services\commande\ServiceCommande;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeNotFoundException;
 use Psr\Http\Message\ResponseInterface;

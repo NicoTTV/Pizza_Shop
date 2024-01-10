@@ -1,8 +1,8 @@
 <?php
 
-namespace pizzashop\commande\domain\dto\commande;
+namespace pizzashop\commande\domain\dto;
 
-class ItemDTO extends \pizzashop\commande\domain\dto\DTO{
+class ItemDTO extends DTO{
     public $numero;
     public $libelle;
     public $taille;

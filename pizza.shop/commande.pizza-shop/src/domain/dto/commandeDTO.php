@@ -1,11 +1,10 @@
 <?php
 
-namespace pizzashop\commande\domain\dto\commande;
+namespace pizzashop\commande\domain\dto;
 
-use PhpParser\Node\Expr\Cast\Double;
 use pizzashop\commande\domain\services\exceptions\PropertyDoesNotExist;
 
-class commandeDTO extends \pizzashop\commande\domain\dto\DTO{
+class commandeDTO extends DTO{
 
     private $id;
     private $date_commande;

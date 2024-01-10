@@ -1,6 +1,6 @@
 <?php
 
-namespace pizzashop\shop\domain\services\utils;
+namespace pizzashop\commande\domain\services\utils;
 
 use Illuminate\Container\Container;
 use Illuminate\Database\Capsule\Manager;

@@ -1,28 +1,29 @@
 <?php
-namespace pizzashop\shop\domain\services\commande;
+namespace pizzashop\commande\domain\services\commande;
 
 use DI\NotFoundException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use PHPUnit\Logging\Exception;
-use pizzashop\commande\domain\dto\commande\commandeDTO;
-use pizzashop\commande\domain\entities\commande\Commande;
-use pizzashop\commande\domain\entities\commande\Item;
+use pizzashop\commande\domain\dto\commandeDTO;
+use pizzashop\commande\domain\entities\Commande;
+use pizzashop\commande\domain\entities\Item;
+use pizzashop\commande\domain\services\catalogue\iInfoProduit;
 use pizzashop\commande\domain\services\exceptions\CreerCommandeException;
 use pizzashop\commande\domain\services\exceptions\ProduitIntrouvableException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeEnregistrementException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeInvalidException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeNotFoundException;
 use pizzashop\commande\domain\services\exceptions\ServiceUnvalidDataException;
+use pizzashop\commande\domain\services\ServiceCatalogue;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Exceptions\NestedValidationException;
-use Respect\Validation\Exceptions\NullableException;
 use Respect\Validation\Validator as v;
 
-class ServiceCommande {
+class ServiceCommande implements ICommander{
 
-    private ServiceCatalogue $serviceCatalogue;
+    private iInfoProduit $serviceCatalogue;
 
-    public function __construct(ServiceCatalogue $serviceCatalogue) {
+    public function __construct(iInfoProduit $serviceCatalogue) {
         $this->serviceCatalogue = $serviceCatalogue;
     }
 
@@ -85,11 +86,12 @@ class ServiceCommande {
      * @throws CreerCommandeException
      * @throws ProduitIntrouvableException
      */
-    public function creerCommande(CommandeDTO $commandeDTO) {
+    public function creerCommande(CommandeDTO $commandeDTO): commandeDTO
+    {
         $montant_total = 0;
         $commandeId = Uuid::uuid4()->toString();
         foreach ($commandeDTO->items as $item) {
-            $infoProduit = $this->serviceCatalogue->getProduit($item->numero, $item->taille);
+            $infoProduit = $this->serviceCatalogue->getProduitbyTaille($item->numero, $item->taille);
             $montant_total += $infoProduit->tarif * $item->quantite;
             $item->libelle = $infoProduit->libelle_produit;
             $item->tarif = $infoProduit->tarif;

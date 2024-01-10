@@ -13,7 +13,7 @@ return function( \Slim\App $app):void {
         ->setName('creer_commande')->add(CheckAuthUser::class);
 
     $app->get('/commandes/{id_commande}[/]', AccederCommandeAction::class)
-        ->setName('commande')->add(CheckIfOwner::class)->add(CheckAuthUser::class);
+        ->setName('commande');//->add(CheckIfOwner::class)->add(CheckAuthUser::class);
 
     $app->patch("/commandes/{id_commande}[/]", ValiderCommandeAction::class)
         ->setName("valider")->add(CheckIfOwner::class)->add(CheckAuthUser::class);

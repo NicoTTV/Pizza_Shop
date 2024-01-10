@@ -84,4 +84,24 @@ class ServiceCatalogue implements iInfoProduit
         }
         return $produitDTO;
     }
+
+    function getProduitbyTaille(int $id, int $taille): ProduitDTO
+    {
+        $produit = Produit::where('id', $id)->first();
+        $categ = $produit->categorie()->first();
+        $categDTO = new CategorieDTO($categ->id, $categ->libelle);
+        $produitDTO = new ProduitDTO($produit->numero, $produit->libelle, $categDTO);
+
+        $tarifs = $produit->tarif()->where('taille_id', $taille)->get();
+
+        foreach ($tarifs as $tarif) {
+            $tarifDTO = new TarifDTO($tarif->produit_id, $tarif->taille_id, $tarif->tarif);
+
+            $taille = $tarif->taille()->first();
+            $tarifDTO->taille = new TailleDTO($taille->id, $taille->libelle);
+            $produitDTO->tarifs[] = $tarifDTO;
+
+        }
+        return $produitDTO;
+    }
 }

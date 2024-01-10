@@ -112,7 +112,7 @@ services:
   gateway-api.pizza-shop:
     image: 'canals/php:latest'
     ports:
-      - '5000:80'
+      - '6000:80'
       - '1446:443'
     volumes:
       - ../gateway.pizza-shop/public:/var/www/html

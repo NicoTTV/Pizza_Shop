@@ -1,6 +1,6 @@
 <?php
 
-namespace pizzashop\src\domain\services\commande;
+namespace pizzashop\commande\domain\services\commande;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
