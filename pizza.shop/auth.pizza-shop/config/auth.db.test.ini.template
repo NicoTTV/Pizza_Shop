@@ -1,8 +1,0 @@
-connection=auth
-driver=mysql
-username=
-password=
-host=pizza-shop.auth.db
-database=pizza_shop_test
-charset=utf8
-collation=utf8_unicode_ci
