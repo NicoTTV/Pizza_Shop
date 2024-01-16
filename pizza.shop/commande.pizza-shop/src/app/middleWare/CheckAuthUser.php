@@ -19,7 +19,7 @@ class CheckAuthUser
         $tokenstring = sscanf($h[0], "Bearer %s")[0];
 
         $authClient = new Client([
-            'base_uri' => 'api.pizza-auth/api/users/',
+            'base_uri' => 'auth-api.pizza-shop/api/users/',
             'timeout' => 10.0
         ]);
         $authorization = [  'Authorization' => "Bearer $tokenstring",

@@ -7,14 +7,11 @@ use PHPUnit\Logging\Exception;
 use pizzashop\commande\domain\dto\commandeDTO;
 use pizzashop\commande\domain\entities\Commande;
 use pizzashop\commande\domain\entities\Item;
-use pizzashop\commande\domain\services\catalogue\iInfoProduit;
 use pizzashop\commande\domain\services\exceptions\CreerCommandeException;
-use pizzashop\commande\domain\services\exceptions\ProduitIntrouvableException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeEnregistrementException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeInvalidException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeNotFoundException;
 use pizzashop\commande\domain\services\exceptions\ServiceUnvalidDataException;
-use pizzashop\commande\domain\services\ServiceCatalogue;
 use Ramsey\Uuid\Uuid;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator as v;
@@ -84,14 +81,13 @@ class ServiceCommande implements ICommander{
      * @param commandeDTO $commandeDTO
      * @return commandeDTO
      * @throws CreerCommandeException
-     * @throws ProduitIntrouvableException
      */
     public function creerCommande(CommandeDTO $commandeDTO): commandeDTO
     {
         $montant_total = 0;
         $commandeId = Uuid::uuid4()->toString();
         foreach ($commandeDTO->items as $item) {
-            $infoProduit = $this->serviceCatalogue->getProduitbyTaille($item->numero, $item->taille);
+            $infoProduit = $this->serviceCatalogue->getProduit($item->numero);
             $montant_total += $infoProduit->tarif * $item->quantite;
             $item->libelle = $infoProduit->libelle_produit;
             $item->tarif = $infoProduit->tarif;
@@ -127,7 +123,7 @@ class ServiceCommande implements ICommander{
      * @throws ServiceCommandeNotFoundException
      * @throws ServiceCommandeInvalidException
      */
-    public function checkIfUserIsOwner($commandeId, $email): true
+    public function checkIfUserIsOwner($commandeId, $email): bool
     {
         try {
             $commande = Commande::where('id', $commandeId)->firstOrFail();

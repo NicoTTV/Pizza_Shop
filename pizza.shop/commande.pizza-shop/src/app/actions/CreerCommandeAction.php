@@ -2,8 +2,8 @@
 
 namespace pizzashop\commande\app\actions;
 
-use pizzashop\commande\domain\dto\commande\commandeDTO;
-use pizzashop\commande\domain\dto\commande\ItemDTO;
+use pizzashop\commande\domain\dto\commandeDTO;
+use pizzashop\commande\domain\dto\ItemDTO;
 use pizzashop\commande\domain\services\commande\ServiceCommande;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Request;
