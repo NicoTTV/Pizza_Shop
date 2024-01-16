@@ -12,10 +12,10 @@ return function( \Slim\App $app):void {
     $app->post('/commandes[/]', CreerCommandeAction::class)
         ->setName('creer_commande')->add(CheckAuthUser::class);
 
-    $app->get('/commandes/{id_commande}[/]', AccederCommandeAction::class)
-        ->setName('commande');//->add(CheckIfOwner::class)->add(CheckAuthUser::class);
+    $app->get('/commande/{id_commande}[/]', AccederCommandeAction::class)
+        ->setName('commande')->add(CheckIfOwner::class)->add(CheckAuthUser::class);
 
-    $app->patch("/commandes/{id_commande}[/]", ValiderCommandeAction::class)
+    $app->patch("/commande/{id_commande}[/]", ValiderCommandeAction::class)
         ->setName("valider")->add(CheckIfOwner::class)->add(CheckAuthUser::class);
 
     $app->options('/{routes:.+}', function ($request, $response, $args) {
