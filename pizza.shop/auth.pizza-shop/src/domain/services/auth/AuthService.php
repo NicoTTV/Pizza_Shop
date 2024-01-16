@@ -22,6 +22,7 @@ use pizzashop\auth\api\domain\services\exceptions\RefreshTokenCreationFailedExce
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenErrorException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenExpiredException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenNotFoundException;
+use pizzashop\auth\api\domain\services\exceptions\UserAlreadyExistsException;
 use pizzashop\auth\api\domain\services\exceptions\UserNotFoundException;
 
 class AuthService implements AuthServiceInterface
@@ -39,10 +40,11 @@ class AuthService implements AuthServiceInterface
     /**
      * @param CredentialsDTO $credentialsDTO
      * @return UserDTO
+     * @throws UserAlreadyExistsException
      */
     public function signup(CredentialsDTO $credentialsDTO): UserDTO
     {
-        $this->authProvider->register($credentialsDTO->email, $credentialsDTO->password);
+        $this->authProvider->register($credentialsDTO->email, $credentialsDTO->password, $credentialsDTO->username);
         return $this->authProvider->getAuthentifiedUser();
     }
 
