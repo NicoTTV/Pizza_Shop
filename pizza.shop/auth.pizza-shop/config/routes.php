@@ -7,12 +7,12 @@ use pizzashop\auth\api\app\actions\ValidateAction;
 
 return function( \Slim\App $app):void {
 
-    $app->post('/api/users/signin', SigninAction::class)
+    $app->post('/user/signin', SigninAction::class)
         ->setName('signin');
 
-    $app->get('/api/users/validate', ValidateAction::class)
+    $app->get('/user/validate', ValidateAction::class)
         ->setName('validate');
 
-    $app->post('/api/users/refresh', RefreshAction::class)
+    $app->post('/user/refresh', RefreshAction::class)
         ->setName('refresh');
 };
