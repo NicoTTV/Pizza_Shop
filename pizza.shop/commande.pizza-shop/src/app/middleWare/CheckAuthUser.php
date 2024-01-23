@@ -3,13 +3,33 @@
 namespace pizzashop\commande\app\middleWare;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Exception\HttpUnauthorizedException;
 
+/**
+ * Middleware pour vérifier l'authentification de l'utilisateur.
+ *
+ * Ce middleware intercepte la requête et vérifie la présence et la validité
+ * du token d'authentification fourni dans l'en-tête 'Authorization'.
+ */
 class CheckAuthUser
 {
+    /**
+     * Méthode invoquée lors du traitement de la requête par le middleware.
+     *
+     * Vérifie l'existence et la validité du token d'authentification.
+     * Si le token est absent ou invalide, une exception HttpUnauthorizedException est levée.
+     * Si le token est valide, la requête est enrichie avec les données de l'utilisateur
+     * et passée au prochain gestionnaire.
+     *
+     * @param ServerRequestInterface $request La requête HTTP.
+     * @param RequestHandlerInterface $next Le prochain gestionnaire de requête.
+     * @return ResponseInterface La réponse HTTP après traitement du middleware.
+     * @throws HttpUnauthorizedException|GuzzleException Si aucun token n'est fourni ou si le token est invalide.
+     */
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
 

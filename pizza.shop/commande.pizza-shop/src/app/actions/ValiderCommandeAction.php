@@ -13,18 +13,46 @@ use Slim\Exception\HttpNotFoundException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
+/**
+ * Action pour valider une commande existante.
+ *
+ * Cette action est responsable de la validation d'une commande
+ * basée sur son identifiant unique.
+ */
 class ValiderCommandeAction extends AbstractAction
 {
+    /**
+     * Service pour la gestion des commandes.
+     *
+     * @var ServiceCommande
+     */
     private ServiceCommande $comm;
 
     /**
-     * @param ServiceCommande $comm
+     * Constructeur pour l'action de validation de commande.
+     *
+     * @param ServiceCommande $comm Le service de gestion des commandes.
      */
     public function __construct(ServiceCommande $comm)
     {
         $this->comm = $comm;
     }
 
+    /**
+     * Gère la requête HTTP pour valider une commande.
+     *
+     * Récupère l'identifiant de la commande à partir des arguments de la requête,
+     * tente de valider la commande via le service de commande,
+     * et renvoie une réponse avec les détails de la commande validée.
+     *
+     * @param Request $request La requête HTTP.
+     * @param Response $response La réponse HTTP.
+     * @param array $args Les arguments de la route.
+     * @return ResponseInterface La réponse HTTP avec les détails de la commande validée.
+     * @throws HttpNotFoundException Si la commande n'est pas trouvée.
+     * @throws HttpBadRequestException Si la commande est invalide.
+     * @throws HttpInternalServerErrorException Si une erreur interne se produit lors de la validation.
+     */
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
         $uuid = $args["id_commande"] ?? "";
