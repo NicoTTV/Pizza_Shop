@@ -26,7 +26,7 @@ docker-compose up -d
 Après le lancement des services, les fichiers SQL seront automatiquement ajoutés aux bases de données respectives, initialisant ainsi les structures et les données nécessaires pour l'application.
 ## Liens vers le rendu du TP 7
 
-[Dossier du fichier markdown](./rendu/TD7.md)
+[Fichier de rendu](./rendu/TD7.md)
 
 ## Liens vers les API en PHP
 
