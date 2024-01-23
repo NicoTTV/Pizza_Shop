@@ -6,8 +6,6 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
-use pizzashop\gateway\app\actions\AbstractGatewayAction;
-use pizzashop\gateway\src\domain\exceptions\GatewayException;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Exception\HttpInternalServerErrorException;
 use Slim\Exception\HttpUnauthorizedException;

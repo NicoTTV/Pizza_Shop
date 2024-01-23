@@ -18,7 +18,7 @@ class CheckAuthUser
     public function __construct(string $authUrl)
     {
         $this->client = new Client([
-            'base_uri' => "$authUrl/api/users/",
+            'base_uri' => "$authUrl/user/",
             'timeout' => 10.0,
         ]);
     }

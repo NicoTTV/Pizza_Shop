@@ -130,7 +130,7 @@ class ServiceCommande implements ICommander{
         } catch (ModelNotFoundException $e) {
             throw new ServiceCommandeNotFoundException("commande not found");
         }
-        if ($commande->access !== $email){
+        if ($commande->mail_client !== $email){
             throw new ServiceCommandeInvalidException("not owner");
         }
         return true;

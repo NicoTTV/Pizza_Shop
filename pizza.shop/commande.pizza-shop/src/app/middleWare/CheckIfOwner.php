@@ -31,7 +31,7 @@ class CheckIfOwner
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
         try {
-            $response = $this->authClient->get('auth-api.pizza-shop/api/users/validate', [
+            $response = $this->authClient->get('auth-api.pizza-shop/user/validate', [
                 'headers' => $request->getHeaders()
             ]);
         }catch (ConnectException | ServerException $e) {
