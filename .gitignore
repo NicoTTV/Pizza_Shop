@@ -11,3 +11,6 @@ pizza.shop/catalogue.pizza-shop/composer.lock
 
 pizza.shop/commande.pizza-shop/vendor
 pizza.shop/commande.pizza-shop/composer.lock
+
+pizza.shop/gateway.pizza-shop/vendor
+pizza.shop/gateway.pizza-shop/composer.lock

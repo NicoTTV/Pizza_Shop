@@ -2,10 +2,6 @@
 declare(strict_types=1);
 
 
-use pizzashop\shop\domain\dto\commande\commandeDTO;
-use pizzashop\shop\domain\dto\commande\ItemDTO;
-use pizzashop\shop\domain\entities\commande\Commande;
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 /* application boostrap */
