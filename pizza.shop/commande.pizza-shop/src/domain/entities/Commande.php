@@ -4,7 +4,6 @@ namespace pizzashop\commande\domain\entities;
 
 
 use pizzashop\commande\domain\dto\commandeDTO;
-use pizzashop\commande\domain\entities\commande\Item;
 
 class Commande extends \Illuminate\Database\Eloquent\Model
 {

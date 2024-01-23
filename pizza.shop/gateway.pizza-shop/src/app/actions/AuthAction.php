@@ -21,7 +21,7 @@ class AuthAction extends AbstractGatewayAction
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
         try {
-            $this->service->request($request->getMethod(), $request->getUri()->getPath(), [
+            $response = $this->service->request($request->getMethod(), $request->getUri()->getPath(), [
                 'header' => [
                     'Authorization' => $request->getHeader('Authorization')
                 ],

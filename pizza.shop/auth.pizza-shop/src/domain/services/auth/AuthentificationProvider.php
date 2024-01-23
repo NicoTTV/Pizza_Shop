@@ -13,6 +13,7 @@ use pizzashop\auth\api\domain\services\exceptions\RefreshTokenCreationFailedExce
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenErrorException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenExpiredException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenNotFoundException;
+use pizzashop\auth\api\domain\services\exceptions\UserAlreadyExistsException;
 use pizzashop\auth\api\domain\services\exceptions\UserNotFoundException;
 use Throwable;
 
@@ -35,15 +36,15 @@ class AuthentificationProvider
         try {
             $user = User::findOrFail($email);
         } catch (ModelNotFoundException $e) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("user not found");
         }
 
         if (isset($user)) {
             if ($user->active === 0) {
-                throw new InactivatedUserException();
+                throw new InactivatedUserException("user not activated");
             }
             if (!password_verify($password, $user->password)) {
-                throw new PasswordNotMatchException();
+                throw new PasswordNotMatchException("password not match");
             }
         }
         $this->createRefreshToken($user);
@@ -79,12 +80,37 @@ class AuthentificationProvider
         return new UserDTO($this->user->username, $this->user->email, $this->user->refresh_token);
     }
 
-    public function register(string $user, string $pass)
+    /**
+     * @throws UserAlreadyExistsException
+     * @throws \Exception
+     */
+    public function register(string $email, string $pass, string $username): void
     {
+        if (User::where('email', $email)->exists())
+            throw new UserAlreadyExistsException();
+
+        $user = array(  'email' => $email,
+                        'password' => password_hash($pass, PASSWORD_DEFAULT),
+                        'activation_token' => bin2hex(random_bytes(32)),
+                        'username' => $username,
+        );
+        $user = User::create($user);
+        $this->user = $user;
     }
 
-    public function activate(string $token)
+    /**
+     * @throws UserNotFoundException
+     */
+    public function activate(string $token): void
     {
+        try {
+            $user = User::where('activation_token', $token)->firstOrFail();
+        } catch (ModelNotFoundException $e) {
+            throw new UserNotFoundException();
+        }
+        $user->active = 1;
+        $user->activation_token = null;
+        $user->saveOrFail();
     }
 
     /**

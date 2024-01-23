@@ -10,13 +10,13 @@ use pizzashop\commande\app\middleWare\CheckIfOwner;
 return function( \Slim\App $app):void {
 
     $app->post('/commandes[/]', CreerCommandeAction::class)
-        ->setName('creer_commande')->add(CheckAuthUser::class);
+        ->setName('creer_commande');
 
     $app->get('/commande/{id_commande}[/]', AccederCommandeAction::class)
-        ->setName('commande')->add(CheckAuthUser::class);
+        ->setName('commande')->add(CheckIfOwner::class);
 
     $app->patch("/commande/{id_commande}[/]", ValiderCommandeAction::class)
-        ->setName("valider")->add(CheckIfOwner::class)->add(CheckAuthUser::class);
+        ->setName("valider")->add(CheckIfOwner::class);
 
     $app->options('/{routes:.+}', function ($request, $response, $args) {
         return $response;

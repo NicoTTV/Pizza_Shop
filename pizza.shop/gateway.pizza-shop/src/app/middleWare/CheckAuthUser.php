@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\ServerException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Slim\Exception\HttpInternalServerErrorException;
 use Slim\Exception\HttpUnauthorizedException;
 
 class CheckAuthUser
@@ -17,19 +18,19 @@ class CheckAuthUser
     public function __construct(string $authUrl)
     {
         $this->client = new Client([
-            'base_uri' => $authUrl,
-            'timeout' => 5.0,
+            'base_uri' => "$authUrl/api/users/",
+            'timeout' => 10.0,
         ]);
     }
 
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
         try {
-            $response = $this->client->request($request->getMethod(),'validate', [
-                'headers' => $request->getHeaders(),
+            $response = $this->client->get('validate', [
+                'headers' => $request->getHeaders()
             ]);
         }catch (ClientException | ServerException | ConnectException $e) {
-            throw new HttpUnauthorizedException($request, "auth error ({$e->getCode()},{$e->getMessage()})");
+            throw new HttpInternalServerErrorException($request, "auth error ({$e->getCode()},{$e->getMessage()})");
         }
         if (!$response->getStatusCode() == 200)
             throw new HttpUnauthorizedException($request, 'Invalid token');
