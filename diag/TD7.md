@@ -64,6 +64,13 @@
 - **Code(s) erreur(s)** : 500, 401
 - **Description** : Connecter un utilisateur. Les données échangées incluent l'adresse email et le mot de passe.
 
+### Refresh Token
+
+- **Méthode** : GET
+- **URI** : `/refresh[/]`
+- **Code Retour** : 200
+- **Code(s) erreur(s)** : 500, 401
+- **Description** : Rafraîchir le token d'un utilisateur. Les données échangées incluent le refresh token de l'utilisateur.
 
 ## Exercice 2 : compléments sur l’api passerelle
 
