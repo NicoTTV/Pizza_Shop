@@ -2,6 +2,8 @@
 
 namespace pizzashop\commande\app\actions;
 
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Message\AMQPMessage;
 use pizzashop\commande\domain\services\commande\ServiceCommande;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeInvalidException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeNotFoundException;
@@ -74,7 +76,6 @@ class ValiderCommandeAction extends AbstractAction
         } catch (ServiceCommandeEnregistrementException $e) {
             throw new HttpInternalServerErrorException($request, "Une erreur est survenue pendant la validation de la commande");
         }
-
 
         $data = $this->formaterCommande($commande, $request);
 
