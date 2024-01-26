@@ -15,6 +15,7 @@ use pizzashop\auth\api\domain\services\exceptions\RefreshTokenExpiredException;
 use pizzashop\auth\api\domain\services\exceptions\RefreshTokenNotFoundException;
 use pizzashop\auth\api\domain\services\exceptions\UserAlreadyExistsException;
 use pizzashop\auth\api\domain\services\exceptions\UserNotFoundException;
+use pizzashop\auth\api\domain\services\exceptions\UserNotRegisteredException;
 use Throwable;
 
 class AuthentificationProvider
@@ -77,25 +78,30 @@ class AuthentificationProvider
 
     public function getAuthentifiedUser(): UserDTO
     {
-        return new UserDTO($this->user->username, $this->user->email, $this->user->refresh_token);
+        return new UserDTO($this->user->username, $this->user->email, $this->user->refresh_token ?? "");
     }
 
     /**
      * @throws UserAlreadyExistsException
+     * @throws UserNotRegisteredException
      * @throws \Exception
      */
     public function register(string $email, string $pass, string $username): void
     {
-        if (User::where('email', $email)->exists())
-            throw new UserAlreadyExistsException();
+        try {
+            if (User::where('email', $email)->exists())
+                throw new UserAlreadyExistsException("user already exists");
 
-        $user = array(  'email' => $email,
-                        'password' => password_hash($pass, PASSWORD_DEFAULT),
-                        'activation_token' => bin2hex(random_bytes(32)),
-                        'username' => $username,
-        );
-        $user = User::create($user);
-        $this->user = $user;
+            $user = array(  'email' => $email,
+                'password' => password_hash($pass, PASSWORD_DEFAULT),
+                'activation_token' => bin2hex(random_bytes(32)),
+                'username' => $username,
+            );
+            $user = User::create($user);
+            $this->user = $user;
+        } catch (\Exception $e) {
+            throw new UserNotRegisteredException($e->getMessage());
+        }
     }
 
     /**

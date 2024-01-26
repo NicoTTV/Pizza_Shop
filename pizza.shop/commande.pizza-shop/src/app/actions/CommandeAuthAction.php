@@ -1,30 +1,34 @@
 <?php
 
-namespace pizzashop\gateway\app\actions;
+namespace pizzashop\commande\app\actions;
 
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
-use pizzashop\gateway\app\actions\AbstractGatewayAction;
+use pizzashop\commande\app\actions\AbstractAction;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Exception\HttpInternalServerErrorException;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;
 
-class AuthAction extends AbstractGatewayAction
+class CommandeAuthAction extends AbstractAction
 {
-    /**
-     * @throws GuzzleException
-     */
+    private Client $client;
+    public function __construct($authUrl)
+    {
+        $this->client = new Client([
+            'base_uri' => "http://$authUrl/"
+        ]);
+    }
+
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
         try {
-            $response = $this->service->request($request->getMethod(), $request->getUri()->getPath(), [
-                'headers' => [
-                    'Authorization' => $request->getHeader('Authorization')
-                ]
+            $response = $this->client->request($request->getMethod(), '/user/signin', [
+                'headers' => $request->getHeaders(),
+                'json' => $request->getParsedBody()
             ]);
         }catch (ConnectException | ServerException $e) {
             throw new HttpInternalServerErrorException($request, "auth server error ({$e->getCode()},{$e->getMessage()})");

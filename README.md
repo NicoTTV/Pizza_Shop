@@ -32,17 +32,20 @@ Après le lancement des services, les fichiers SQL seront automatiquement ajout�
       - Créer une commande en POST : http://localhost:2000/commandes
       - Récupérer une commande en GET : http://localhost:2000/commandes/{id}
       - Valider une commande en PATCH : http://localhost:2000/commandes/{id}
+      - Authentification au travers de l'API Commande en POST: http://localhost:2000/commande/signin
 
 - **API Catalogue**
     - Port : http://localhost:3000
       - Récupérer les produits en GET : http://localhost:3000/produits
       - Récupérer un produit en GET : http://localhost:3000/produits/{id}
+      - - Filter les produits en GET : http://localhost:3000/produits/search?q={search_qeury}
       - Récupérer les produits d'une catégorie en GET : http://localhost:3000/categorie/{id_categorie}/produits
 - **API Authentification**
     - Port : http://localhost:4000
       - Connexion (signin) en POST : http://localhost:4000/user/signin
-      - Inscription (signup) en POST : http://localhost:4000/user/validate
+      - Contrôle d'accès avec token JWT en POST : http://localhost:4000/user/validate
       - Rafraîchir le token en GET : http://localhost:4000/user/refresh
+      - Inscription (signup) en POST : http://localhost:4000/user/signup
 
 - **API GateAway**
     - Port : http://localhost:6000
@@ -50,10 +53,11 @@ Après le lancement des services, les fichiers SQL seront automatiquement ajout�
         - Récupérer une commande en GET : http://localhost:6000/commande/{id_commande}
         - Valider une commande en PATCH : http://localhost:6000/commande/{id_commande}
         - Récupérer tous les produits en GET : http://localhost:6000/produits
+        - Filter les produits en GET : http://localhost:6000/produits/search?q={search_qeury}
         - Récupérer un produit spécifique en GET : http://localhost:6000/produit/{id_produit}
         - Récupérer les produits par catégorie en GET : http://localhost:6000/categorie/{id_categorie}/produits
-        - Inscription (signup) en POST : http://localhost:6000/signup
-        - Connexion (signin) en POST : http://localhost:6000/signin
-        - Rafraîchir le token en GET : http://localhost:6000/refresh
+        - Inscription (signup) en POST : http://localhost:6000/user/signup
+        - Connexion (signin) en POST : http://localhost:6000/user/signin
+        - Rafraîchir le token en POST : http://localhost:6000/user/refresh
 
 

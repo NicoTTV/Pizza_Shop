@@ -15,8 +15,7 @@ abstract class AbstractGatewayAction
     public function __construct(string $authUrl)
     {
         $this->service = new Client([
-            'base_uri' => "http://$authUrl/",
-            'timeout' => 10.0
+            'base_uri' => "http://$authUrl/"
         ]);
     }
 

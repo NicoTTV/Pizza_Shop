@@ -21,5 +21,8 @@ return [
     \pizzashop\auth\api\app\actions\RefreshAction::class => function(\Psr\Container\ContainerInterface $container) {
         return new \pizzashop\auth\api\app\actions\RefreshAction($container->get('auth.service'));
     },
+    \pizzashop\auth\api\app\actions\SignupAction::class => function(\Psr\Container\ContainerInterface $container) {
+        return new \pizzashop\auth\api\app\actions\SignupAction($container->get('auth.service'));
+    },
 
 ];

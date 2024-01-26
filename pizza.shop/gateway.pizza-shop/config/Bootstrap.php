@@ -11,6 +11,7 @@ $app = AppFactory::createFromContainer($c);
 
 $app->addBodyParsingMiddleware();
 $app->addRoutingMiddleware();
+//$app->add(\pizzashop\gateway\app\middleWare\Cors::class);
 $errorMiddleware = $app->addErrorMiddleware($c->get('displayErrorDetails'),false,false);
 $errorHandler = $errorMiddleware->getDefaultErrorHandler();
 

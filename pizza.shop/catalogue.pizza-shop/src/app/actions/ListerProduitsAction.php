@@ -21,7 +21,11 @@ class ListerProduitsAction extends AbstractAction
     }
     public function __invoke(Request $request, Response $response, $args): ResponseInterface
     {
-        $produits = $this->cata->getAllProducts();
+        $filter = $request->getQueryParams()['q'] ?? null;
+        if ($filter)
+            $produits = $this->cata->getProductsByFilter($filter);
+        else
+            $produits = $this->cata->getAllProducts();
 
         $data = $this->formaterCatalogue($produits, $request);
         $response->getBody()->write(json_encode($data));

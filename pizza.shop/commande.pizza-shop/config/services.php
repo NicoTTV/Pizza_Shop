@@ -9,4 +9,8 @@ return [
     \pizzashop\commande\app\middleWare\CheckIfOwner::class => function(\Psr\Container\ContainerInterface $container){
         return new \pizzashop\commande\app\middleWare\CheckIfOwner($container->get('commande.service'), $container->get('auth.service'));
     },
+
+    \pizzashop\commande\app\actions\CommandeAuthAction::class => function(\Psr\Container\ContainerInterface $container){
+        return new \pizzashop\commande\app\actions\CommandeAuthAction($container->get('auth.service'));
+    },
 ];

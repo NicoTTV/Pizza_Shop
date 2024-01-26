@@ -24,14 +24,13 @@ class CheckIfOwner
     {
         $this->serviceCommande = $serviceCommande;
         $this->authClient = new Client([
-            'base_uri' => "",
-            'timeout' => 20.0
+            'base_uri' => "auth-api.pizza-shop/user/"
         ]);
     }
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
         try {
-            $response = $this->authClient->get('auth-api.pizza-shop/user/validate', [
+            $response = $this->authClient->get('validate', [
                 'headers' => $request->getHeaders()
             ]);
         }catch (ConnectException | ServerException $e) {

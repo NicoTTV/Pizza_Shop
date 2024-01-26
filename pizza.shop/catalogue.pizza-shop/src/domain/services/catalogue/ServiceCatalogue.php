@@ -104,4 +104,19 @@ class ServiceCatalogue implements iInfoProduit
         }
         return $produitDTO;
     }
+
+    public function getProductsByFilter(mixed $filter)
+    {
+        $filter = strtolower($filter);
+        $produits = Produit::whereRaw('LOWER(libelle) LIKE ?', ["%$filter%"])
+            ->orWhereRaw('LOWER(description) LIKE ?', ["%$filter%"])
+            ->get();
+        $produitsDTO = [];
+        foreach ($produits as $produit) {
+            $categ = $produit->categorie()->first();
+            $categDTO = new CategorieDTO($categ->id, $categ->libelle);
+            $produitsDTO[] = new ProduitDTO($produit->numero, $produit->libelle, $categDTO);
+        }
+        return $produitsDTO;
+    }
 }

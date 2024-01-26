@@ -16,6 +16,9 @@ return function(\Slim\App $app):void {
     $app->get('/categorie/{id_categorie}/produits[/]', ListerProduitsParCategorieAction::class)
         ->setName('produits_par_categorie');
 
+    $app->get('/produits/search[/]', ListerProduitsAction::class)
+        ->setName('produit_search');
+
     $app->options('/{routes:.+}', function ($request, $response, $args) {
         return $response;
     });
