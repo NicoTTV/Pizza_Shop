@@ -2,6 +2,8 @@
 
 namespace pizzashop\commande\app\actions;
 
+use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Message\AMQPMessage;
 use pizzashop\commande\domain\services\commande\ServiceCommande;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeInvalidException;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeNotFoundException;
@@ -29,13 +31,22 @@ class ValiderCommandeAction extends AbstractAction
     private ServiceCommande $comm;
 
     /**
+     * Canal AMQP pour la publication des commandes validées.
+     *
+     * @var AMQPChannel
+     */
+    private AMQPChannel $amqpChannel;
+
+    /**
      * Constructeur pour l'action de validation de commande.
      *
      * @param ServiceCommande $comm Le service de gestion des commandes.
+     * @param AMQPChannel $amqpChannel Le canal AMQP pour la publication des commandes validées.
      */
-    public function __construct(ServiceCommande $comm)
+    public function __construct(ServiceCommande $comm, AMQPChannel $amqpChannel)
     {
         $this->comm = $comm;
+        $this->amqpChannel = $amqpChannel;
     }
 
     /**
@@ -66,8 +77,11 @@ class ValiderCommandeAction extends AbstractAction
             throw new HttpInternalServerErrorException($request, "Une erreur est survenue pendant la validation de la commande");
         }
 
-
         $data = $this->formaterCommande($commande, $request);
+
+        $msg = new AMQPMessage(json_encode($data));
+        $this->amqpChannel->basic_publish($msg, '', getenv('rabbit_queue_commande'));
+
 
         $response->getBody()->write(json_encode($data));
         return
