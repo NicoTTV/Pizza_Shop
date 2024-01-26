@@ -126,3 +126,15 @@ services:
         - commande-api.pizza-shop
         - catalogue-api.pizza-shop
         - auth-api.pizza-shop
+
+  # Service RabbitMQ :
+  rabbitmq.pizza-shop:
+    image: 'rabbitmq:3-management'
+    env_file:
+      - ./rabbit.env
+    ports:
+      - '4500:5672'
+      - '15672:15672'
+    networks:
+      - pizza-shop.net
+
