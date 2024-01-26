@@ -36,7 +36,7 @@ services:
     networks:
       - pizza-shop.net
     volumes:
-      - ../commande.pizza-shop/sql:/var/sql
+      - ../commande.pizza-shop/sql/pizza_shop.commande.schema.data.sql:/docker-entrypoint-initdb.d/pizza_shop.commande.schema.data.sql
 
     # Service API pizza-shop pour le catalogue :
   catalogue-api.pizza-shop:
@@ -68,7 +68,7 @@ services:
     networks:
       - pizza-shop.net
     volumes:
-      - ../catalogue.pizza-shop/sql:/var/sql
+      - ../catalogue.pizza-shop/sql/pizza_shop.catalogue.schema.data.sql:/docker-entrypoint-initdb.d/pizza_shop.catalogue.schema.data.sql
 
   # Service API pizza-shop pour l'authentification :
   auth-api.pizza-shop:
@@ -101,7 +101,7 @@ services:
     networks:
       - pizza-shop.net
     volumes:
-      - ../auth.pizza-shop/sql:/var/sql
+      - ../auth.pizza-shop/sql/pizza_shop.auth.schema.data.sql:/docker-entrypoint-initdb.d/pizza_shop.auth.schema.data.sql
 
   # Service administration des bases sql :
   adminer:
