@@ -22,7 +22,7 @@ services:
           - commande-api.pizza-shop.local
     depends_on:
       - commande-db.pizza-shop
-      - rabbitmq
+      - rabbitmq.pizza-shop
 
 
   # Service SQL pizza-shop pour le stockage des commandes :
@@ -56,7 +56,6 @@ services:
           - catalogue-api.pizza-shop.local
     depends_on:
       - catalogue-db.pizza-shop
-      - rabbitmq
 
   # Service SQL pizza-shop pour le catalogue :
   catalogue-db.pizza-shop:
@@ -88,7 +87,6 @@ services:
           - auth-api.pizza-shop.local
     depends_on:
       - auth-db.pizza-shop
-      - rabbitmq
 
   # Service SQL pizza-shop pour l'authentification :
   auth-db.pizza-shop:
