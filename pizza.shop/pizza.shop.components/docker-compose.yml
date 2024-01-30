@@ -147,7 +147,21 @@ services:
     command: sh -c "npm i && npm run watch"
     # volumes:
     ports:
-      - '500:3000'
+      - '7000:3000'
     environment:
       - "PORT: 3000"
       - "NODE_ENV: development"
+    depends_on:
+      - node-db.pizza-shop
+
+  node-db.pizza-shop:
+    image: 'mariadb:latest'
+    command: '--default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci'
+    env_file:
+      - ./node.env
+    ports:
+      - '7010:3306'
+    networks:
+      - pizza-shop.net
+    volumes:
+      - ../node.pizza-shop/sql/pizza_shop.node.schema.data.sql:/docker-entrypoint-initdb.d/pizza_shop.node.schema.data.sql
