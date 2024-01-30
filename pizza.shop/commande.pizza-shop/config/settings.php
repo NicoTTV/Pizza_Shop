@@ -5,7 +5,7 @@ return [
     'com.db.config.name' => 'commande',
     'auth.service' => 'auth-api.pizza-shop',
 
-    'rabbitmq.host' => 'rabbitmq',
+    'rabbitmq.host' => 'rabbitmq.pizza-shop',
     'rabbitmq.port' => 5672,
     'rabbitmq.user' => 'commande',
     'rabbitmq.password' => 'commande',

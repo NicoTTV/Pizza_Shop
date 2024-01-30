@@ -2,6 +2,7 @@ import express from 'express';
 import knex from 'knex';
 import { CommandeService } from './services/CommandeService.js';
 import {CommandesAction} from "./actions/CommandesAction.js";
+import {ConsommationMessagesService} from "./services/ConsommationMessagesService.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -38,4 +39,7 @@ app.patch('/commande/:id/etape', (req, res) => {
 app.listen(port, () =>
     console.log(`app listening on port ${port}!`
     )
-);
+)
+const consume = new ConsommationMessagesService(new CommandeService(knexInstance));
+consume.execute();
+
