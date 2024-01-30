@@ -14,3 +14,6 @@ pizza.shop/commande.pizza-shop/composer.lock
 
 pizza.shop/gateway.pizza-shop/vendor
 pizza.shop/gateway.pizza-shop/composer.lock
+
+pizza.shop/node.pizza-shop/node_modules
+pizza.shop/node.pizza-shop/package-lock.json
