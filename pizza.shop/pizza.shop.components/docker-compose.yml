@@ -138,3 +138,16 @@ services:
       - '15672:15672'
     networks:
       - pizza-shop.net
+
+  node-api.pizza-shop:
+    image: node:alpine
+    networks:
+      - pizza-shop.net
+    working_dir: /usr/app
+    command: sh -c "npm i && npm run watch"
+    # volumes:
+    ports:
+      - '500:3000'
+    environment:
+      - "PORT: 3000"
+      - "NODE_ENV: development"
