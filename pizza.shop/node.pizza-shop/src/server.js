@@ -23,10 +23,17 @@ app.get('/error', (req, res) => {
 });
 app.get('/commandes', (req, res) => {
 
+});
 
+app.patch('/commande/:id/etape', (req, res) => {
+    const commandeService = new CommandeService(knexInstance);
+    const etapeCommande = new EtapeCommandeAction(commandeService);
 });
 
 app.listen(port, () =>
     console.log(`app listening on port ${port}!`
     )
 );
+
+// route qui permet au client de faire évoluer la commande
+
