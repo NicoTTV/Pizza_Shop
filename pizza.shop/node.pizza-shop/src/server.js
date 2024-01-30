@@ -1,5 +1,7 @@
 import express from 'express';
 import knex from 'knex';
+import { CommandeService } from './services/CommandeService.js';
+import {CommandesAction} from "./actions/CommandesAction.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +24,9 @@ app.get('/error', (req, res) => {
     throw new Error('error');
 });
 app.get('/commandes', (req, res) => {
+    const commandeService = new CommandeService(knexInstance);
+    const listerCommandesAction = new CommandesAction(commandeService);
+    listerCommandesAction.execute(req, res).then(r => console.log(r)).catch(e => console.log(e));
 
 });
 
@@ -34,6 +39,3 @@ app.listen(port, () =>
     console.log(`app listening on port ${port}!`
     )
 );
-
-// route qui permet au client de faire évoluer la commande
-

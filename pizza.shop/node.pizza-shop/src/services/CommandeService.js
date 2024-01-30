@@ -1,10 +1,10 @@
-class CommandeService {
+export class CommandeService {
     constructor(knex) {
         this.knex = knex;
     }
 
     async listerCommandes() {
-        return await this.knex.select('*').from('commande');
+        return await this.knex('commande').select('*');
     }
 
     changerEtatCommande(idCommande, etapeCommande) {

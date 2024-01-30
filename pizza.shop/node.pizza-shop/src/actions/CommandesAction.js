@@ -1,4 +1,4 @@
-class CommandesAction {
+export class CommandesAction {
     constructor(commandeService) {
         this.commandeService = commandeService;
     }
