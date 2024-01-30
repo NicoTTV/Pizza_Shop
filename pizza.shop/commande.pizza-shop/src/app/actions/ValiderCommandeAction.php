@@ -3,6 +3,7 @@
 namespace pizzashop\commande\app\actions;
 
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Connection\AbstractConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use pizzashop\commande\domain\services\commande\ServiceCommande;
 use pizzashop\commande\domain\services\exceptions\ServiceCommandeInvalidException;
@@ -33,17 +34,17 @@ class ValiderCommandeAction extends AbstractAction
     /**
      * Canal AMQP pour la publication des commandes validées.
      *
-     * @var AMQPChannel
+     * @var AbstractConnection
      */
-    private AMQPChannel $amqpChannel;
+    private AbstractConnection $amqpChannel;
 
     /**
      * Constructeur pour l'action de validation de commande.
      *
      * @param ServiceCommande $comm Le service de gestion des commandes.
-     * @param AMQPChannel $amqpChannel Le canal AMQP pour la publication des commandes validées.
+     * @param AbstractConnection $amqpChannel Le canal AMQP pour la publication des commandes validées.
      */
-    public function __construct(ServiceCommande $comm, AMQPChannel $amqpChannel)
+    public function __construct(ServiceCommande $comm, AbstractConnection $amqpChannel)
     {
         $this->comm = $comm;
         $this->amqpChannel = $amqpChannel;
@@ -80,7 +81,8 @@ class ValiderCommandeAction extends AbstractAction
         $data = $this->formaterCommande($commande, $request);
 
         $msg = new AMQPMessage(json_encode($data));
-        $this->amqpChannel->basic_publish($msg, 'pizzashop', 'nouvelle');
+        $channel = $this->amqpChannel->channel();
+        $channel->basic_publish($msg, 'pizzashop', 'nouvelle');
 
         $response->getBody()->write(json_encode($data));
         return

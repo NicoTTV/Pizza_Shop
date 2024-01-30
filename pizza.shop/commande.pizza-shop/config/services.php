@@ -19,10 +19,4 @@ return [
     'rabbitmq.connection' => function(\Psr\Container\ContainerInterface $container){
         return new \PhpAmqpLib\Connection\AMQPStreamConnection($container->get('rabbitmq.host'), $container->get('rabbitmq.port'), $container->get('rabbitmq.user'), $container->get('rabbitmq.password'));
     },
-    'rabbitmq.channel' => function(\Psr\Container\ContainerInterface $container){
-        return $container->get('rabbitmq.connection')->channel();
-    },
-    'rabbitmq.connection' => function(\Psr\Container\ContainerInterface $container){
-        return new \PhpAmqpLib\Connection\AMQPStreamConnection($container->get('rabbitmq.host'), $container->get('rabbitmq.port'), $container->get('rabbitmq.user'), $container->get('rabbitmq.password'));
-    },
 ];

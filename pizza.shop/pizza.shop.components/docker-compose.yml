@@ -130,19 +130,13 @@ services:
         - catalogue-api.pizza-shop
         - auth-api.pizza-shop
 
-  # Serveur de messagerie RabbitMQ :
-  rabbitmq:
-    image: rabbitmq:3-management
+  # Service RabbitMQ :
+  rabbitmq.pizza-shop:
+    image: 'rabbitmq:3-management'
+    env_file:
+      - ./rabbit.env
     ports:
-      - '15672:15672'
       - '4500:5672'
-    healthcheck:
-      test: rabbitmq-diagnostics -q ping
-      interval: 8s
-      timeout: 30s
-      retries: 3
+      - '15672:15672'
     networks:
       - pizza-shop.net
-    volumes:
-      - ../rabbitmq.pizza-shop:/var/lib/rabbitmq
-    env_file: ./rabbit.env
