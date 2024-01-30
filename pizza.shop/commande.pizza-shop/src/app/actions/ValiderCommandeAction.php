@@ -80,8 +80,7 @@ class ValiderCommandeAction extends AbstractAction
         $data = $this->formaterCommande($commande, $request);
 
         $msg = new AMQPMessage(json_encode($data));
-        $this->amqpChannel->basic_publish($msg, '', getenv('rabbit_queue_commande'));
-
+        $this->amqpChannel->basic_publish($msg, 'pizzashop', 'nouvelle');
 
         $response->getBody()->write(json_encode($data));
         return

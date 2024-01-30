@@ -135,7 +135,7 @@ services:
     image: rabbitmq:3-management
     ports:
       - '15672:15672'
-      - '5672:5672'
+      - '4500:5672'
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 8s
@@ -145,4 +145,4 @@ services:
       - pizza-shop.net
     volumes:
       - ../rabbitmq.pizza-shop:/var/lib/rabbitmq
-    env_file: ./rab.env
+    env_file: ./rabbit.env

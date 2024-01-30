@@ -4,8 +4,9 @@ return [
     'com.db.config' => __DIR__ . '/commande.db.ini',
     'com.db.config.name' => 'commande',
     'auth.service' => 'auth-api.pizza-shop',
-    'rabbitmq.host' => 'localhost',
-    'rabbitmq.port' => 4500,
+
+    'rabbitmq.host' => 'rabbitmq',
+    'rabbitmq.port' => 5672,
     'rabbitmq.user' => 'commande',
     'rabbitmq.password' => 'commande',
 ];

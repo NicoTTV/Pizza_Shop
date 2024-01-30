@@ -50,6 +50,7 @@ class CheckIfOwner
     public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
         $email = $request->getAttribute('user')->user->properties->email->value;
+        var_dump($email);
         $routeContext = RouteContext::fromRequest($request);
         $route = $routeContext->getRoute();
         $idCommande = $route->getArgument('id_commande');
